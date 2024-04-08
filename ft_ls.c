@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/08 17:54:09 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:57:29 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 int	main(int ac, char **av)
 {
 	int			result;
-	struct stat	hello;
+	t_ls		ls;
 
-	if (ac != 1)
-		ft_printf("Hi");
-	(void)av;
-	ft_printf("This is a test\n");
-	result = stat(".", &hello);
-	ft_printf("This is the result of stat: %20d\n", result);
+	ft_bzero(&ls, sizeof(ls));
+	if (ac == 1)
+		ft_printf("HIHI");
 	return (0);
 }
