@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/09 16:09:03 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/09 22:59:18 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define FT_LS_H
 
 # include "libft/libft.h"
-# include <sys/types.h>
 # include <sys/stat.h>
+# include <dirent.h>
 
 typedef enum e_lsflags
 {
