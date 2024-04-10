@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/09 22:59:18 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:27:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/libft.h"
 # include <sys/stat.h>
 # include <dirent.h>
+# include <string.h>
 
 typedef enum e_lsflags
 {
@@ -38,5 +39,6 @@ typedef struct s_ls
 
 void	count_options(t_ls *ls);
 int		valid_flag(t_ls *ls);
+size_t	count_padding(void);
 
 #endif

@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls.c                                            :+:      :+:    :+:   */
+/*   ft_ls_padding.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/10 15:18:51 by corellan         ###   ########.fr       */
+/*   Created: 2024/04/10 14:13:36 by corellan          #+#    #+#             */
+/*   Updated: 2024/04/10 14:30:51 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int	main(int ac, char **av)
+size_t	count_padding(void)
 {
-	t_ls	ls;
+	struct dirent	*data;
+	DIR				*dir;
+	size_t			length;
+	size_t			result;
 
-	ft_bzero(&ls, sizeof(ls));
-	ls.ac = ac;
-	ls.av = av;
-	count_options(&ls);
-	if (ls.starting_point != 1 && valid_flag(&ls) == -1)
+	length = 0;
+	dir = opendir(".");
+	if (!dir)
+		return (0);
+	while (1)
 	{
-		ft_dprintf(2, "ft_ls: illegal option -- %c\n", ls.char_flag);
-		ft_dprintf(2, "usage: ft_ls [-Ralrt] [file ...]\n");
-		return (1);
+		data = readdir(dir);
+		if (!data)
+			break ;
+		if (length < data->d_namlen)
+			length = data->d_namlen;
 	}
-	return (0);
+	closedir(dir);
+	result = ((length / 8) + 1);
+	return (result);
 }

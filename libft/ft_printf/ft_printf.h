@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:46:08 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:35:19 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:26:16 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_printf
 
 int		ft_printf(const char *s, ...);
 int		ft_dprintf(int fd, const char *s, ...);
+int		ft_sprintf(char *str, const char *s, ...);
 int		str_return(char *str, t_printf *data);
 int		char_return(char c, t_printf *data, t_char flag);
 int		nbr_return(long long number, t_base base, t_printf *data);
@@ -87,5 +88,6 @@ size_t	length_number(const char c, va_list *ar, int base);
 int		append_identation(t_printf *data, size_t size_parameter, t_when when);
 int		append_zeros(size_t max, t_printf *data);
 int		special_case(t_printf *data);
+int		append_or_return(va_list *ar, t_printf *data, int value, int flag);
 
 #endif

@@ -6,36 +6,12 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 11:45:22 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:37:47 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:14:44 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "../libft.h"
-
-static int	append_or_return(va_list *ar, t_printf *data, int value, int flag)
-{
-	size_t	buf_idx;
-
-	buf_idx = data->buffer_idx;
-	if (flag == 0)
-	{
-		if (data->str)
-			free(data->str);
-		data->str = NULL;
-		va_end(*ar);
-		return (value);
-	}
-	if (buf_idx)
-	{
-		data->mct = (size_t)data->count - data->buffer_idx;
-		data->str = copy_to_heap(data->str, data->buffer, data->mct, buf_idx);
-		if (!data->str)
-			return (-1);
-		ft_bzero(data->buffer, sizeof(data->buffer));
-	}
-	return (0);
-}
 
 static int	handle_variadic(va_list *ar, t_printf *data, const char *s)
 {
@@ -86,6 +62,34 @@ static int	check_flags(const char *s, va_list *ar, t_printf *data)
 		s[data->index] == 'u')
 		data->size_number = length_number(s[data->index], ar, 10);
 	return (handle_variadic(ar, data, s));
+}
+
+int	ft_sprintf(char *str, const char *s, ...)
+{
+	va_list		ar;
+	t_printf	data;
+
+	ft_bzero(&data, sizeof(data));
+	va_start(ar, s);
+	while (s[data.index])
+	{
+		ft_bzero(&(data.flags), sizeof(data.flags));
+		if (s[data.index] == '%' && s[data.index + 1] != '\0')
+		{
+			(data.index)++;
+			data.return_status = check_flags(s, &ar, &data);
+		}
+		else if (s[data.index] != '%' && s[data.index] != '\0')
+			data.return_status = char_return(s[data.index], &data, NOCONV);
+		if (data.return_status == -1 || data.count < 0)
+			return (append_or_return(&ar, &data, -1, 0));
+		(data.index)++;
+	}
+	if (append_or_return(&ar, &data, -1, 1) == -1)
+		return (append_or_return(&ar, &data, -1, 0));
+	if (data.str && !ft_memcpy(str, data.str, data.count))
+		return (append_or_return(&ar, &data, -1, 0));
+	return (append_or_return(&ar, &data, data.count, 0));
 }
 
 int	ft_dprintf(int fd, const char *s, ...)

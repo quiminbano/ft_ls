@@ -6,7 +6,7 @@
 #    By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 12:00:04 by corellan          #+#    #+#              #
-#    Updated: 2024/04/08 17:47:58 by corellan         ###   ########.fr        #
+#    Updated: 2024/04/10 13:30:40 by corellan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ GNL_OUT = $(GNL_SRC:.c=.o)
 
 PF_SRC = $(addprefix ft_printf/, ft_printf.c ft_printf_utils.c \
 ft_printf_flags.c ft_printf_flags_append.c ft_printf_error.c \
-ft_printf_append.c)
+ft_printf_append.c ft_printf_return.c)
 
 PF_OUT = $(PF_SRC:.c=.o)
 
