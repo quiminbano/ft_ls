@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/10 14:27:09 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:55:57 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,26 @@ typedef enum e_lsflags
 	TFLAG
 }	t_lsflags;
 
+typedef struct s_fileinfo
+{
+	char		*name;
+	struct stat	stat;
+}	t_fileinfo;
+
 typedef struct s_ls
 {
 	int				ac;
 	char			**av;
 	char			char_flag;
+	char			*tmpdir;
 	size_t			starting_point;
-	struct stat		files;
 	unsigned int	flags_info;
+	t_list			*dir;
+	t_list			*file;
+	t_list			*error;
 }	t_ls;
 
 void	count_options(t_ls *ls);
 int		valid_flag(t_ls *ls);
-size_t	count_padding(void);
 
 #endif
