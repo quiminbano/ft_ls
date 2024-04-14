@@ -6,11 +6,21 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/13 20:18:26 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/14 20:34:53 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static void	fill_info(t_fileinfo **info, t_ls *ls)
+{
+	ls->stat_status = lstat(ls->tmpdir, &((*info)->lstat));
+	if (ls->stat_status != -1)
+	{
+		(*info)->pw = getpwuid((*info)->lstat.st_uid);
+		(*info)->gr = getgrgid((*info)->lstat.st_gid);
+	}
+}
 
 static t_list	*process_argument(t_ls *ls, const char *input)
 {
@@ -26,7 +36,7 @@ static t_list	*process_argument(t_ls *ls, const char *input)
 		free(ls->tmpdir);
 		return (NULL);
 	}
-	ls->stat_status = stat(ls->tmpdir, &info->stat);
+	fill_info(&info, ls);
 	info->name = ls->tmpdir;
 	ls->tmpdir = NULL;
 	tmp = ft_lstnew(info);

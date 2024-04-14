@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/14 15:21:33 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/14 20:49:20 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "libft/libft.h"
 # include <sys/stat.h>
 # include <dirent.h>
+# include <pwd.h>
+# include <grp.h>
+# include <sys/xattr.h>
 # include <string.h>
 
 typedef enum e_lsflags
@@ -29,8 +32,11 @@ typedef enum e_lsflags
 
 typedef struct s_fileinfo
 {
-	char		*name;
-	struct stat	stat;
+	char			*name;
+	struct stat		stat;
+	struct stat		lstat;
+	struct passwd	*pw;
+	struct group	*gr;
 }	t_fileinfo;
 
 typedef struct s_ls

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/14 17:39:12 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/14 21:05:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ static void	store_permissions(t_fileinfo *info, t_ls *ls, size_t i)
 		ls->permissions[i] = '-';
 }
 
+#ifdef __APPLE__
+
 static void	store_attributes(t_fileinfo *info, t_ls *ls)
 {
 	size_t	i;
 
-	i = 1;
+	i = 0;
 	if (S_ISBLK(info->stat.st_mode))
 		ls->permissions[0] = 'b';
 	else if (S_ISCHR(info->stat.st_mode))
@@ -49,12 +51,42 @@ static void	store_attributes(t_fileinfo *info, t_ls *ls)
 		ls->permissions[0] = 'p';
 	else
 		ls->permissions[0] = '-';
-	while (i < 11)
-	{
+	while (++i < 11)
 		store_permissions(info, ls, i);
-		i++;
-	}
+	if (listxattr(info->name, NULL, 0, 0) < 0)
+		ls->permissions[i] = ' ';
+	else
+		ls->permissions[i] = '@';
 }
+#else
+
+static void	store_attributes(t_fileinfo *info, t_ls *ls)
+{
+	size_t	i;
+
+	i = 0;
+	if (S_ISBLK(info->stat.st_mode))
+		ls->permissions[0] = 'b';
+	else if (S_ISCHR(info->stat.st_mode))
+		ls->permissions[0] = 'c';
+	else if (S_ISDIR(info->stat.st_mode))
+		ls->permissions[0] = 'd';
+	else if (S_ISLNK(info->stat.st_mode))
+		ls->permissions[0] = 'l';
+	else if (S_ISSOCK(info->stat.st_mode))
+		ls->permissions[0] = 's';
+	else if (S_ISFIFO(info->stat.st_mode))
+		ls->permissions[0] = 'p';
+	else
+		ls->permissions[0] = '-';
+	while (++i < 11)
+		store_permissions(info, ls, i);
+	if (listxattr(info->name, NULL, 0) < 0)
+		ls->permissions[i] = ' ';
+	else
+		ls->permissions[i] = '@';
+}
+#endif
 
 static void	print_file(t_fileinfo *info, t_ls *ls)
 {
