@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/12 12:50:07 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:42:39 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,9 @@ int	main(int ac, char **av)
 		ft_dprintf(2, "usage: ft_ls [-Ralrt] [file ...]\n");
 		return (1);
 	}
-	return (0);
+	if (check_files_args(&ls) == -1)
+		return (1);
+	print_error(&(ls.error), &ls);
+	free_lst(ls.dir, ls.file, ls.error);
+	return (ls.exit_status);
 }
