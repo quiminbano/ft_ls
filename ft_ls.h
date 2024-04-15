@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/15 12:58:19 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:25:24 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ typedef struct s_ls
 	int				ac;
 	int				stat_status;
 	int				exit_status;
+	int				pad_lnk;
 	int				pad_pw;
 	int				pad_gr;
+	int				pad_s_file;
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
