@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/14 20:49:20 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:58:19 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_ls
 	int				ac;
 	int				stat_status;
 	int				exit_status;
+	int				pad_pw;
+	int				pad_gr;
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
@@ -61,5 +63,6 @@ int		check_files_args(t_ls *ls);
 void	swap_pointers(void **a, void **b);
 void	free_lst(t_list *dir, t_list *file, t_list *err);
 void	print_files_or_error(t_list **begin, t_ls *ls, int error);
+void	store_attributes(t_fileinfo *info, t_ls *ls);
 
 #endif

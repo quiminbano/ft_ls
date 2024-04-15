@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/14 20:34:53 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:45:25 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_list	*process_argument(t_ls *ls, const char *input)
 	if (!tmp)
 	{
 		free(info->name);
-		ft_bzero(&(info->stat), sizeof(info->stat));
+		ft_bzero(&(info->lstat), sizeof(info->lstat));
 		free(info);
 		return (NULL);
 	}
@@ -84,7 +84,7 @@ int	check_files_args(t_ls *ls)
 			return (free_lst_error(ls->dir, ls->file, ls->error));
 		if (ls->stat_status == -1)
 			ft_lstadd_back(&(ls->error), tmp);
-		else if (S_ISDIR(((t_fileinfo *)tmp->content)->stat.st_mode))
+		else if (S_ISDIR(((t_fileinfo *)tmp->content)->lstat.st_mode))
 			ft_lstadd_back(&(ls->dir), tmp);
 		else
 			ft_lstadd_back(&(ls->file), tmp);
