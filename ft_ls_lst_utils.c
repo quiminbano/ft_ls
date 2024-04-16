@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 09:07:41 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 15:58:05 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 22:10:52 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	swap_pointers(void **a, void **b)
 	*b = tmp;
 }
 
-static void	delete_fileinfo(void *fileinfo)
+void	delete_fileinfo(void *fileinfo)
 {
 	t_fileinfo	*ptr;
 
@@ -36,6 +36,9 @@ static void	delete_fileinfo(void *fileinfo)
 	if (ptr->time)
 		free(ptr->time);
 	ptr->time = NULL;
+	if (ptr->file_size)
+		free(ptr->file_size);
+	ptr->file_size = NULL;
 	free(ptr);
 	ptr = NULL;
 	fileinfo = NULL;

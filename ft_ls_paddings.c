@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 19:13:45 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 22:16:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	calculate_paddings(t_list **begin, t_ls *ls)
 {
 	t_list		*tmp;
 	t_fileinfo	*info;
+	size_t		length_size;
 
 	tmp = *begin;
 	ft_bzero(&(ls->pad), sizeof(ls->pad));
@@ -89,6 +90,9 @@ int	calculate_paddings(t_list **begin, t_ls *ls)
 		padding_user_and_group(info, ls);
 		if (get_time_string(info) == -1)
 			return (-1);
+		length_size = ft_strlen(info->file_size);
+		if (length_size > ls->pad.pad_size)
+			ls->pad.pad_size = length_size;
 		ls->total_blocks += info->lstat.st_blocks;
 		tmp = tmp->next;
 	}
