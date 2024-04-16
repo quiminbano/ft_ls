@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/15 13:25:24 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:59:13 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # include <grp.h>
 # include <sys/xattr.h>
 # include <string.h>
+# include <time.h>
+
+typedef enum e_erls
+{
+	FLAGSERR,
+	ALLOCERR
+}	t_erls;
 
 typedef enum e_lsflags
 {
@@ -62,6 +69,7 @@ typedef struct s_ls
 void	count_options(t_ls *ls);
 int		valid_flag(t_ls *ls);
 int		check_files_args(t_ls *ls);
+void	sort_input(t_ls *ls, t_list **begin, int flag);
 void	swap_pointers(void **a, void **b);
 void	free_lst(t_list *dir, t_list *file, t_list *err);
 void	print_files_or_error(t_list **begin, t_ls *ls, int error);

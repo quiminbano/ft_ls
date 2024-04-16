@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/15 12:50:06 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 07:30:59 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	print_files_or_error(t_list **begin, t_ls *ls, int error)
 	tmp = *begin;
 	if (error == 1)
 		ls->exit_status = 1;
+	else if (tmp)
+		calculate_paddings();
 	while (tmp)
 	{
 		info = tmp->content;

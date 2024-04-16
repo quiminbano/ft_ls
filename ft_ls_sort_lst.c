@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:18:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/15 12:46:36 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:08:18 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	sort_input(t_ls *ls, t_list **begin, int flag)
 		bk = 0;
 	else
 		bk = ls->flags_info;
+	if (!tmp)
+		return ;
 	while (tmp->next != NULL)
 	{
 		inf = tmp->content;
