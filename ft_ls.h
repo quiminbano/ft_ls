@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/15 20:59:13 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:54:34 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,37 @@ typedef enum e_lsflags
 typedef struct s_fileinfo
 {
 	char			*name;
+	char			*time;
 	struct stat		stat;
 	struct stat		lstat;
 	struct passwd	*pw;
 	struct group	*gr;
 }	t_fileinfo;
 
+typedef struct s_lspad
+{
+	size_t	pad_hl;
+	size_t	pad_pw;
+	size_t	pad_gr;
+}	t_lspad;
+
 typedef struct s_ls
 {
 	int				ac;
 	int				stat_status;
 	int				exit_status;
-	int				pad_lnk;
-	int				pad_pw;
-	int				pad_gr;
-	int				pad_s_file;
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
 	char			permissions[12];
 	size_t			starting_point;
+	int				total_blocks;
 	unsigned int	flags_info;
 	t_list			*dir;
 	t_list			*file;
 	t_list			*error;
+	t_lspad			pad;
+	t_erls			error;
 }	t_ls;
 
 void	count_options(t_ls *ls);
@@ -72,7 +79,8 @@ int		check_files_args(t_ls *ls);
 void	sort_input(t_ls *ls, t_list **begin, int flag);
 void	swap_pointers(void **a, void **b);
 void	free_lst(t_list *dir, t_list *file, t_list *err);
-void	print_files_or_error(t_list **begin, t_ls *ls, int error);
+int		print_files_or_error(t_list **begin, t_ls *ls, int error);
+int		calculate_paddings(t_list **begin, t_ls *ls);
 void	store_attributes(t_fileinfo *info, t_ls *ls);
 
 #endif

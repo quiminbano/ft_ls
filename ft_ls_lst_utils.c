@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 09:07:41 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/15 09:43:12 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:58:05 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,16 @@ static void	delete_fileinfo(void *fileinfo)
 	t_fileinfo	*ptr;
 
 	ptr = (t_fileinfo *)fileinfo;
-	free(ptr->name);
+	if (!ptr)
+		return ;
+	if (ptr->name)
+		free(ptr->name);
 	ptr->name = NULL;
 	ft_bzero(&(ptr->stat), sizeof(ptr->stat));
 	ft_bzero(&(ptr->lstat), sizeof(ptr->lstat));
+	if (ptr->time)
+		free(ptr->time);
+	ptr->time = NULL;
 	free(ptr);
 	ptr = NULL;
 	fileinfo = NULL;
