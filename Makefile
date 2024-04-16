@@ -6,14 +6,14 @@
 #    By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 12:46:54 by corellan          #+#    #+#              #
-#    Updated: 2024/04/15 21:08:39 by corellan         ###   ########.fr        #
+#    Updated: 2024/04/16 19:09:42 by corellan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
 SRC = ft_ls.c ft_ls_flags.c ft_ls_fill_lst.c ft_ls_lst_utils.c \
-ft_ls_sort_lst.c ft_ls_permissions.c ft_ls_print.c
+ft_ls_sort_lst.c ft_ls_permissions.c ft_ls_print.c ft_ls_paddings.c
 
 OBJ = $(SRC:.c=.o)
 

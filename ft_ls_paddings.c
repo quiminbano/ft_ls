@@ -6,13 +6,13 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 15:55:20 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:13:45 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static char	*get_year(const char *str)
+static const char	*get_year(const char *str)
 {
 	size_t	length;
 
@@ -36,7 +36,7 @@ static int	get_time_string(t_fileinfo *info)
 	time_nwd = time(NULL);
 	flag = 0;
 	current_time = ctime(&time_nwd);
-	time_file = ctime(info->lstat.st_mtime);
+	time_file = ctime(&(info->lstat.st_mtime));
 	if (!ft_strcmp(get_year(current_time), get_year(time_file)))
 		info->time = ft_substr(time_file, 4, 12);
 	else

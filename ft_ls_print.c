@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 13:21:20 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:12:40 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	print_files_or_error(t_list **begin, t_ls *ls, int error)
 	t_fileinfo	*info;
 
 	if (!begin || !(*begin))
-		return ;
+		return (0);
 	tmp = *begin;
 	if (error == 1)
 		ls->exit_status = 1;

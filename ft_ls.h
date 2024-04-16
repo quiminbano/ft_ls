@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 13:54:34 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:10:24 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_ls
 	t_list			*file;
 	t_list			*error;
 	t_lspad			pad;
-	t_erls			error;
+	t_erls			error_c;
 }	t_ls;
 
 void	count_options(t_ls *ls);
