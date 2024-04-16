@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 22:14:22 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/16 22:50:06 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_ls
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
-	char			perm[12];
+	char			perm[11];
 	size_t			starting_point;
 	int				total_blocks;
 	unsigned int	flags_info;
