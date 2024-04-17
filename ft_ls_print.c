@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 22:41:28 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:19:31 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static void	print_file(t_fileinfo *info, t_ls *ls)
 {
 	ft_bzero(ls->perm, sizeof(ls->perm));
-	if (!((ls->flags_info >> AFLAG) & 1) && info->name[0] == '.')
+	if (!((ls->flags_info >> AFLAG) & 1) && (!ft_strcmp(".", info->name) || \
+		!ft_strcmp("..", info->name)))
 		return ;
 	if (((ls->flags_info >> LFLAG) & 1))
 	{

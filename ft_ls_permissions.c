@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 22:47:01 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:39:25 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	store_attributes(t_fileinfo *info, t_ls *ls)
 		ls->perm[0] = '-';
 	while (++i < 10)
 		store_perm(info, ls, i);
-	if (listxattr(info->name, NULL, 0, 0) < 0)
+	if (listxattr(info->name, NULL, 0, 0) <= 0)
 		ls->perm[i] = ' ';
 	else
 		ls->perm[i] = '@';
@@ -81,7 +81,7 @@ void	store_attributes(t_fileinfo *info, t_ls *ls)
 		ls->perm[0] = '-';
 	while (++i < 11)
 		store_perm(info, ls, i);
-	if (listxattr(info->name, NULL, 0) < 0)
+	if (listxattr(info->name, NULL, 0) <= 0)
 		ls->perm[i] = ' ';
 	else
 		ls->perm[i] = '@';
