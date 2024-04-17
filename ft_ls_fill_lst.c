@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 22:37:23 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:50:30 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	fill_info(t_fileinfo **info, t_ls *ls)
 	return (0);
 }
 
-static t_list	*process_argument(t_ls *ls, const char *input)
+t_list	*process_argument(t_ls *ls, const char *input)
 {
 	t_list		*tmp;
 	t_fileinfo	*info;
@@ -83,7 +83,7 @@ int	check_files_args(t_ls *ls)
 	t_list	*tmp;
 
 	i = ls->starting_point;
-	if (ls->ac == 1)
+	if (ls->ac == 1 || (ls->ac == 2 && ls->av[1][0] == '-'))
 		return (process_one_argument(ls, "."));
 	while ((int)i < ls->ac)
 	{

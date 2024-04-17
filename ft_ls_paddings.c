@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 22:16:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:58:04 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	calculate_paddings(t_list **begin, t_ls *ls)
 {
 	t_list		*tmp;
 	t_fileinfo	*info;
+	size_t		length_links;
 	size_t		length_size;
 
 	tmp = *begin;
@@ -85,8 +86,9 @@ int	calculate_paddings(t_list **begin, t_ls *ls)
 	while (tmp)
 	{
 		info = tmp->content;
-		if (info->lstat.st_nlink > ls->pad.pad_hl)
-			ls->pad.pad_hl = info->lstat.st_nlink;
+		length_links = ft_numlength_base(info->lstat.st_nlink, 10);
+		if (length_links > ls->pad.pad_hl)
+			ls->pad.pad_hl = length_links;
 		padding_user_and_group(info, ls);
 		if (get_time_string(info) == -1)
 			return (-1);
