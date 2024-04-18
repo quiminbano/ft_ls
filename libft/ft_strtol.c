@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:28:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/19 00:37:31 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/19 00:46:25 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static long	get_number(char c)
 static long	handle_return(const char *str, char **endptr, size_t i, long number)
 {
 	if (endptr != NULL)
-		*endptr = str + i;
+		(*endptr) = (char *)str + i;
 	return (number);
 }
 
-void	special_cases(const char *str, char **endptr, int *base, size_t *i)
+void	special_cases(const char *str, int *base, size_t *i)
 {
 	if (((*base) == 0 || (*base) == 16) && ft_strnstr(str + (*i), "0x", 2))
 	{
@@ -84,7 +84,7 @@ long	ft_strtol(const char *str, char **endptr, int base)
 		i++;
 	else if (str[i] == '-' && ++i)
 		sign *= -1;
-	special_cases(str, endptr, &base, &i);
+	special_cases(str, &base, &i);
 	calculate_num(str, base, &i, &number);
 	if (number < 0 && sign == 1)
 		return (handle_return(str, endptr, i, LONG_MAX));

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/17 17:44:11 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/19 00:41:36 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	error_messages(t_ls *ls, t_erls error)
 	}
 	if (error == ALLOCERR)
 		ft_dprintf(2, "ft_ls: memory allocation error\n");
-	free_lst(ls->dir, ls->file, ls->error);
+	free_lst(&(ls->dir), &(ls->file), &(ls->error));
 	return (1);
 }
 
@@ -43,6 +43,6 @@ int	main(int ac, char **av)
 		return (error_messages(&ls, ALLOCERR));
 	if (print_folder(&(ls.dir), &ls) == -1)
 		return (error_messages(&ls, ALLOCERR));
-	free_lst(ls.dir, ls.file, ls.error);
+	free_lst(&ls.dir, &ls.file, &ls.error);
 	return (ls.exit_status);
 }
