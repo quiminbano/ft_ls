@@ -6,17 +6,20 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/17 17:50:30 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/18 21:58:06 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	fill_info(t_fileinfo **info, t_ls *ls)
+static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
 {
 	(*info)->name = ls->tmpdir;
 	ls->tmpdir = NULL;
-	ls->stat_status = lstat((*info)->name, &((*info)->lstat));
+	if (type == ARGUMENT)
+		ls->stat_status = lstat((*info)->name, &((*info)->lstat));
+	else
+		ls->stat_status = lstat((*info)->rel_path, &((*info)->lstat));
 	if (ls->stat_status != -1)
 	{
 		(*info)->pw = getpwuid((*info)->lstat.st_uid);
@@ -32,7 +35,7 @@ static int	fill_info(t_fileinfo **info, t_ls *ls)
 	return (0);
 }
 
-t_list	*process_argument(t_ls *ls, const char *input)
+t_list	*process_argument(t_ls *ls, const char *input, t_lstls type)
 {
 	t_list		*tmp;
 	t_fileinfo	*info;
@@ -47,7 +50,7 @@ t_list	*process_argument(t_ls *ls, const char *input)
 		ls->tmpdir = NULL;
 		return (NULL);
 	}
-	if (fill_info(&info, ls) == -1)
+	if (fill_info(&info, ls, type) == -1)
 		return (NULL);
 	tmp = ft_lstnew(info);
 	if (!tmp)
@@ -59,18 +62,12 @@ t_list	*process_argument(t_ls *ls, const char *input)
 	return (tmp);
 }
 
-static int	free_lst_error(t_list *dir, t_list *file, t_list *err)
-{
-	free_lst(dir, file, err);
-	return (-1);
-}
-
 static int	process_one_argument(t_ls *ls, const char *str)
 {
 	t_list	*tmp;
 
 	tmp = NULL;
-	tmp = process_argument(ls, str);
+	tmp = process_argument(ls, str, ARGUMENT);
 	if (!tmp)
 		return (-1);
 	ft_lstadd_back(&(ls->dir), tmp);
@@ -88,9 +85,9 @@ int	check_files_args(t_ls *ls)
 	while ((int)i < ls->ac)
 	{
 		tmp = NULL;
-		tmp = process_argument(ls, ls->av[i]);
+		tmp = process_argument(ls, ls->av[i], ARGUMENT);
 		if (!tmp)
-			return (free_lst_error(ls->dir, ls->file, ls->error));
+			return (free_lst(&(ls->dir), &(ls->file), &(ls->error)));
 		if (ls->stat_status == -1)
 			ft_lstadd_back(&(ls->error), tmp);
 		else if (S_ISDIR(((t_fileinfo *)tmp->content)->lstat.st_mode))

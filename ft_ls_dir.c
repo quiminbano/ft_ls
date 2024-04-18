@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/17 17:45:28 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/18 22:30:04 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	fill_file_dir_list(t_list **files, t_ls *ls, struct dirent *data)
 {
 	t_list	*tmp;
 
-	tmp = process_argument(ls, data->d_name);
+	tmp = process_argument(ls, data->d_name, DIRECTORY);
 	if (!tmp)
 	{
 		free_lst(NULL, *files, NULL);

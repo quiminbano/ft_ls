@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/17 17:29:14 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:54:07 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ typedef enum e_erls
 	ALLOCERR
 }	t_erls;
 
+typedef enum e_lstls
+{
+	ARGUMENT,
+	DIRECTORY
+}	t_lstls;
+
 typedef enum e_lsflags
 {
 	RECFLAG,
@@ -40,6 +46,7 @@ typedef enum e_lsflags
 typedef struct s_fileinfo
 {
 	char			*name;
+	char			*rel_path;
 	char			*time;
 	char			*file_size;
 	struct stat		stat;
@@ -78,10 +85,10 @@ typedef struct s_ls
 void	count_options(t_ls *ls);
 int		valid_flag(t_ls *ls);
 int		check_files_args(t_ls *ls);
-t_list	*process_argument(t_ls *ls, const char *input);
+t_list	*process_argument(t_ls *ls, const char *input, t_lstls type);
 void	sort_input(t_ls *ls, t_list **begin, int flag);
 void	swap_pointers(void **a, void **b);
-void	free_lst(t_list *dir, t_list *file, t_list *err);
+int		free_lst(t_list **dir, t_list **file, t_list **err);
 void	delete_fileinfo(void *fileinfo);
 int		print_files_or_error(t_list **begin, t_ls *ls, int error);
 int		calculate_paddings(t_list **begin, t_ls *ls);

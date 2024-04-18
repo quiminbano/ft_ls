@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 08:50:51 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 21:39:36 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/18 23:22:49 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ char	*ft_ultoa_base(size_t n, size_t base, size_t format);
 size_t	ft_numlength_base(size_t number, size_t base);
 char	*ft_strjoin_append(char *s1, const char *s2, size_t n);
 char	*ft_lltoa(long long n);
+long	ft_strtol(const char *str, char **endptr, int base);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 09:07:41 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/16 22:10:52 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/18 08:45:28 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ void	delete_fileinfo(void *fileinfo)
 	fileinfo = NULL;
 }
 
-void	free_lst(t_list *dir, t_list *file, t_list *err)
+int	free_lst(t_list **dir, t_list **file, t_list **err)
 {
 	if (dir)
-		ft_lstclear(&dir, &delete_fileinfo);
+		ft_lstclear(&(*dir), &delete_fileinfo);
 	if (file)
-		ft_lstclear(&file, &delete_fileinfo);
+		ft_lstclear(&(*file), &delete_fileinfo);
 	if (err)
-		ft_lstclear(&err, &delete_fileinfo);
+		ft_lstclear(&(*err), &delete_fileinfo);
+	return (-1);
 }
