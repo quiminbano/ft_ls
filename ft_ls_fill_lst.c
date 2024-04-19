@@ -6,24 +6,41 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/18 21:58:06 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:47:30 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
+static int	assign_strings(t_fileinfo **info, t_ls *ls, t_lstls type)
 {
 	(*info)->name = ls->tmpdir;
 	ls->tmpdir = NULL;
+	if (type == ARGUMENT)
+		return (0);
+	(*info)->rel_path = ls->tmpinter;
+	ls->tmpinter = NULL;
+	(*info)->rel_path = ft_strjoin_append((*info)->rel_path, (*info)->name, \
+		ft_strlen((*info)->name));
+	if (!(*info)->rel_path)
+		return (-1);
+	return (0);
+}
+
+static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
+{
+	if (assign_strings(info, ls, type) == -1)
+	{
+		delete_fileinfo((*info));
+		(*info) = NULL;
+		return (-1);
+	}
 	if (type == ARGUMENT)
 		ls->stat_status = lstat((*info)->name, &((*info)->lstat));
 	else
 		ls->stat_status = lstat((*info)->rel_path, &((*info)->lstat));
 	if (ls->stat_status != -1)
 	{
-		(*info)->pw = getpwuid((*info)->lstat.st_uid);
-		(*info)->gr = getgrgid((*info)->lstat.st_gid);
 		(*info)->file_size = ft_lltoa((*info)->lstat.st_size);
 		if (!(*info)->file_size)
 		{

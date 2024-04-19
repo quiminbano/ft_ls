@@ -6,20 +6,29 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/19 00:42:13 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:18:49 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	fill_file_dir_list(t_list **files, t_ls *ls, struct dirent *data)
+static int	dir_lst(t_list **files, t_ls *ls, struct dirent *data, char *dir)
 {
 	t_list	*tmp;
 
+	ls->tmpinter = ft_strjoin(dir, "/");
+	if (!ls->tmpinter)
+	{
+		free_lst(NULL, files, NULL);
+		return (-1);
+	}
 	tmp = process_argument(ls, data->d_name, DIRECTORY);
 	if (!tmp)
 	{
 		free_lst(NULL, files, NULL);
+		if (ls->tmpinter)
+			free(ls->tmpinter);
+		ls->tmpinter = NULL;
 		return (-1);
 	}
 	ft_lstadd_back(&(*files), tmp);
@@ -41,7 +50,7 @@ static int	process_folder(t_fileinfo *info, t_ls *ls)
 		data = readdir(tmpdir);
 		if (!data)
 			break ;
-		if (fill_file_dir_list(&files, ls, data) == -1)
+		if (dir_lst(&files, ls, data, info->name) == -1)
 		{
 			closedir(tmpdir);
 			return (-1);

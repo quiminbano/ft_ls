@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/18 08:24:33 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:49:14 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,23 @@ static int	get_time_string(t_fileinfo *info)
 	return (0);
 }
 
-static void	padding_user_and_group(t_fileinfo *info, t_ls *ls)
+static void	padding_user_and_group(t_fileinfo **info, t_ls *ls)
 {
 	size_t	length_us;
 	size_t	length_gr;
 
-	if (info->pw)
-		length_us = ft_strlen(info->pw->pw_name);
+	(*info)->pw = getpwuid((*info)->lstat.st_uid);
+	(*info)->gr = getgrgid((*info)->lstat.st_gid);
+	if ((*info)->pw)
+		length_us = ft_strlen((*info)->pw->pw_name);
 	else
-		length_us = ft_numlength_base(info->lstat.st_uid, 10);
+		length_us = ft_numlength_base((*info)->lstat.st_uid, 10);
 	if (length_us > ls->pad.pad_pw)
 		ls->pad.pad_pw = length_us;
-	if (info->gr)
-		length_gr = ft_strlen(info->gr->gr_name);
+	if ((*info)->gr)
+		length_gr = ft_strlen((*info)->gr->gr_name);
 	else
-		length_gr = ft_numlength_base(info->lstat.st_gid, 10);
+		length_gr = ft_numlength_base((*info)->lstat.st_gid, 10);
 	if (length_gr > ls->pad.pad_gr)
 		ls->pad.pad_gr = length_gr;
 }
@@ -89,7 +91,7 @@ int	calculate_paddings(t_list **begin, t_ls *ls)
 		length_links = ft_numlength_base(info->lstat.st_nlink, 10);
 		if (length_links > ls->pad.pad_hl)
 			ls->pad.pad_hl = length_links;
-		padding_user_and_group(info, ls);
+		padding_user_and_group(&info, ls);
 		if (get_time_string(info) == -1)
 			return (-1);
 		length_size = ft_strlen(info->file_size);

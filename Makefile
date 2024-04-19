@@ -6,7 +6,7 @@
 #    By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 12:46:54 by corellan          #+#    #+#              #
-#    Updated: 2024/04/17 17:19:07 by corellan         ###   ########.fr        #
+#    Updated: 2024/04/19 18:58:35 by corellan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIBFT = -Llibft -lft
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address -static-libsan
+FLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

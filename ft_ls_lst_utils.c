@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 09:07:41 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/18 08:45:28 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:28:29 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	delete_fileinfo(void *fileinfo)
 	if (ptr->file_size)
 		free(ptr->file_size);
 	ptr->file_size = NULL;
+	if (ptr->rel_path)
+		free(ptr->rel_path);
+	ptr->rel_path = NULL;
 	free(ptr);
 	ptr = NULL;
 	fileinfo = NULL;
