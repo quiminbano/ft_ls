@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/19 13:18:50 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:05:58 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ typedef struct s_fileinfo
 	struct group	*gr;
 }	t_fileinfo;
 
+typedef struct s_dircol
+{
+	t_list	*files;
+	t_list	*dir;
+}	t_dircol;
+
 typedef struct s_lspad
 {
 	size_t	pad_hl;
@@ -74,6 +80,8 @@ typedef struct s_ls
 	char			*tmpinter;
 	char			perm[11];
 	size_t			starting_point;
+	size_t			len_link;
+	size_t			len_size;
 	int				total_blocks;
 	unsigned int	flags_info;
 	t_list			*dir;
@@ -91,9 +99,9 @@ void	sort_input(t_ls *ls, t_list **begin, int flag);
 void	swap_pointers(void **a, void **b);
 int		free_lst(t_list **dir, t_list **file, t_list **err);
 void	delete_fileinfo(void *fileinfo);
-int		print_files_or_error(t_list **begin, t_ls *ls, int error);
-int		calculate_paddings(t_list **begin, t_ls *ls);
+int		print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type);
+int		calculate_paddings(t_list **begin, t_ls *ls, t_lstls type);
 void	store_attributes(t_fileinfo *info, t_ls *ls);
-int		print_folder(t_list **begin, t_ls *ls);
+int		print_folder(t_list **begin, t_ls *ls, int flag);
 
 #endif

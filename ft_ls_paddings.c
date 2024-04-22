@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/19 18:49:14 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:25:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,29 @@ static void	padding_user_and_group(t_fileinfo **info, t_ls *ls)
 		ls->pad.pad_gr = length_gr;
 }
 
-int	calculate_paddings(t_list **begin, t_ls *ls)
+int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
 {
 	t_list		*tmp;
 	t_fileinfo	*info;
-	size_t		length_links;
-	size_t		length_size;
 
 	tmp = *begin;
-	ft_bzero(&(ls->pad), sizeof(ls->pad));
 	while (tmp)
 	{
 		info = tmp->content;
-		length_links = ft_numlength_base(info->lstat.st_nlink, 10);
-		if (length_links > ls->pad.pad_hl)
-			ls->pad.pad_hl = length_links;
-		padding_user_and_group(&info, ls);
-		if (get_time_string(info) == -1)
-			return (-1);
-		length_size = ft_strlen(info->file_size);
-		if (length_size > ls->pad.pad_size)
-			ls->pad.pad_size = length_size;
-		ls->total_blocks += info->lstat.st_blocks;
+		if ((type == ARGUMENT) || ((ls->flags_info >> AFLAG) & 1) || \
+			(!((ls->flags_info >> LFLAG) & 1) && info->name[0] != '.'))
+		{
+			ls->len_link = ft_numlength_base(info->lstat.st_nlink, 10);
+			if (ls->len_link > ls->pad.pad_hl)
+				ls->pad.pad_hl = ls->len_link;
+			padding_user_and_group(&info, ls);
+			if (get_time_string(info) == -1)
+				return (-1);
+			ls->len_size = ft_strlen(info->file_size);
+			if (ls->len_size > ls->pad.pad_size)
+				ls->pad.pad_size = ls->len_size;
+			ls->total_blocks += info->lstat.st_blocks;
+		}
 		tmp = tmp->next;
 	}
 	return (0);

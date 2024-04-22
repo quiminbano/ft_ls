@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/19 18:54:16 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:17:15 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	print_file(t_fileinfo *info, t_ls *ls)
 	ft_printf("%s\n", info->name);
 }
 
-int	print_files_or_error(t_list **begin, t_ls *ls, int error)
+int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
 {
 	t_list		*tmp;
 	t_fileinfo	*info;
@@ -46,7 +46,8 @@ int	print_files_or_error(t_list **begin, t_ls *ls, int error)
 		ls->exit_status = 1;
 	else if (tmp && ((ls->flags_info >> LFLAG) & 1))
 	{
-		if (calculate_paddings(begin, ls) == -1)
+		ft_bzero(&(ls->pad), sizeof(ls->pad));
+		if (calculate_paddings(begin, ls, type) == -1)
 			return (-1);
 	}
 	while (tmp)
@@ -54,7 +55,8 @@ int	print_files_or_error(t_list **begin, t_ls *ls, int error)
 		info = tmp->content;
 		if (error == 1)
 			ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(2));
-		else
+		else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
+			(!((ls->flags_info >> LFLAG) & 1) && info->name[0] != '.'))
 			print_file(info, ls);
 		tmp = tmp->next;
 	}
