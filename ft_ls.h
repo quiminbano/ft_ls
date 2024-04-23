@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/22 18:05:58 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:53:39 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_ls
 	int				ac;
 	int				stat_status;
 	int				exit_status;
+	int				size_file_lst;
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
@@ -82,11 +83,13 @@ typedef struct s_ls
 	size_t			starting_point;
 	size_t			len_link;
 	size_t			len_size;
+	size_t			iter_lst;
 	int				total_blocks;
 	unsigned int	flags_info;
 	t_list			*dir;
 	t_list			*file;
 	t_list			*error;
+	t_list			*last;
 	t_lspad			pad;
 	t_erls			error_c;
 }	t_ls;
@@ -103,5 +106,6 @@ int		print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type);
 int		calculate_paddings(t_list **begin, t_ls *ls, t_lstls type);
 void	store_attributes(t_fileinfo *info, t_ls *ls);
 int		print_folder(t_list **begin, t_ls *ls, int flag);
+int		loop_dir(t_fileinfo *info, t_ls *ls, t_dircol *col, DIR **tmpdir);
 
 #endif

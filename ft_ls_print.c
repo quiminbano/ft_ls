@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/22 18:17:15 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:59:48 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,26 @@ static void	print_file(t_fileinfo *info, t_ls *ls)
 	ft_printf("%s\n", info->name);
 }
 
-int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
+static void	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 {
-	t_list		*tmp;
 	t_fileinfo	*info;
 
+	info = node->content;
+	if (type == DIRECTORY && ls->iter_lst == 0 && \
+		((ls->flags_info >> LFLAG) & 1))
+		ft_printf("total %d\n", ls->total_blocks);
+	if (error == 1)
+		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(2));
+	else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
+		(!((ls->flags_info >> LFLAG) & 1) && info->name[0] != '.'))
+		print_file(info, ls);	
+}
+
+int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
+{
+	t_list	*tmp;
+
+	ls->iter_lst = 0;
 	if (!begin || !(*begin))
 		return (0);
 	tmp = *begin;
@@ -52,13 +67,9 @@ int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
 	}
 	while (tmp)
 	{
-		info = tmp->content;
-		if (error == 1)
-			ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(2));
-		else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
-			(!((ls->flags_info >> LFLAG) & 1) && info->name[0] != '.'))
-			print_file(info, ls);
+		files_error_loop(tmp, ls, error, type);
 		tmp = tmp->next;
+		(ls->iter_lst)++;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/22 17:08:57 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:27:37 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int ac, char **av)
 		return (error_messages(&ls, ALLOCERR));
 	if (print_files_or_error(&(ls.file), &ls, 0, ARGUMENT) == -1)
 		return (error_messages(&ls, ALLOCERR));
+	ls.size_file_lst = ft_lstsize(ls.file);
 	if (print_folder(&(ls.dir), &ls, 0) == -1)
 		return (error_messages(&ls, ALLOCERR));
 	free_lst(&ls.dir, &ls.file, &ls.error);
