@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/24 10:58:53 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/24 22:11:24 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,14 @@ static const char	*get_year(const char *str)
 static int	get_time_string(t_fileinfo *info)
 {
 	time_t	time_nwd;
-	char	*current_time;
 	char	*time_file;
 	int		flag;
 
 	time_nwd = time(NULL);
 	flag = 0;
-	current_time = ctime(&time_nwd);
 	time_file = ctime(&(info->lstat.st_mtime));
-	if (!ft_strcmp(get_year(current_time), get_year(time_file)))
+	if ((info->lstat.st_mtime >= (time_nwd - SIX_MONTHS)) && \
+		(info->lstat.st_mtime <= (time_nwd + SIX_MONTHS)))
 		info->time = ft_substr(time_file, 4, 12);
 	else
 	{

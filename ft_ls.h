@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/23 16:53:39 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/24 22:11:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/xattr.h>
 # include <string.h>
 # include <time.h>
+
+# define SIX_MONTHS 15811200
 
 typedef enum e_erls
 {
