@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/22 18:25:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/24 10:58:53 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,12 @@ int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
 	t_fileinfo	*info;
 
 	tmp = *begin;
+	ls->total_blocks = 0;
 	while (tmp)
 	{
 		info = tmp->content;
 		if ((type == ARGUMENT) || ((ls->flags_info >> AFLAG) & 1) || \
-			(!((ls->flags_info >> LFLAG) & 1) && info->name[0] != '.'))
+			(!((ls->flags_info >> AFLAG) & 1) && info->name[0] != '.'))
 		{
 			ls->len_link = ft_numlength_base(info->lstat.st_nlink, 10);
 			if (ls->len_link > ls->pad.pad_hl)

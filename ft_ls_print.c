@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/23 15:59:48 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:36:48 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static void	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 	if (error == 1)
 		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(2));
 	else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
-		(!((ls->flags_info >> LFLAG) & 1) && info->name[0] != '.'))
-		print_file(info, ls);	
+		(!((ls->flags_info >> AFLAG) & 1) && info->name[0] != '.'))
+		print_file(info, ls);
 }
 
 int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)

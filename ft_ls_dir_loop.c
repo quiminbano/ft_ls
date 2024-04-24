@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 11:43:55 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/23 22:45:38 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:30:53 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,19 @@ static int	dir_lst(t_list **fil, t_ls *ls, struct dirent *dat, t_fileinfo *inf)
 	return (0);
 }
 
+static int	is_rec(t_fileinfo *last, t_ls *ls)
+{
+	if (!((ls->flags_info >> RECFLAG) & 1))
+		return (0);
+	if (!S_ISDIR(last->lstat.st_mode))
+		return (0);
+	if (!ft_strcmp(".", last->name) || !ft_strcmp("..", last->name))
+		return (0);
+	if (!((ls->flags_info >> AFLAG) & 1) && last->name[0] == '.')
+		return (0);
+	return (1);
+}
+
 int	loop_dir(t_fileinfo *info, t_ls *ls, t_dircol *col, DIR **tmpdir)
 {
 	struct dirent	*data;
@@ -55,9 +68,7 @@ int	loop_dir(t_fileinfo *info, t_ls *ls, t_dircol *col, DIR **tmpdir)
 			return (-1);
 		}
 		last = ls->last->content;
-		if (((ls->flags_info >> RECFLAG) & 1) && \
-			S_ISDIR(last->lstat.st_mode) && ft_strcmp(".", last->name) && \
-			ft_strcmp("..", last->name) && \
+		if (is_rec(last, ls) && \
 			dir_lst(&(col->dir), ls, data, info) == -1)
 		{
 			closedir(*tmpdir);
