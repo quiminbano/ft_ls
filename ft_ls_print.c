@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/24 12:36:48 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:07:35 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ static void	print_file(t_fileinfo *info, t_ls *ls)
 			ft_printf("%-*s  ", ls->pad.pad_gr, info->gr->gr_name);
 		else
 			ft_printf("%-*u  ", ls->pad.pad_gr, info->lstat.st_gid);
-		ft_printf("%*s %s ", ls->pad.pad_size, info->file_size, info->time);
+		if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
+		{
+			ft_printf("%*d, ", ls->pad.pad_major, major(info->lstat.st_rdev));
+			ft_printf("%*d ", ls->pad.pad_minor, minor(info->lstat.st_rdev));
+		}
+		else
+			ft_printf("%*s ", ls->pad.pad_size, info->file_size);
+		ft_printf("%s ", info->time);
 	}
 	ft_printf("%s\n", info->name);
 }

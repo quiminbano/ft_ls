@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/24 22:11:09 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:25:17 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct s_lspad
 	size_t	pad_pw;
 	size_t	pad_gr;
 	size_t	pad_size;
+	size_t	pad_major;
+	size_t	pad_minor;
 }	t_lspad;
 
 typedef struct s_ls

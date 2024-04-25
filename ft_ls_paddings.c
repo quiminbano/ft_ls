@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/24 22:11:24 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:18:34 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,31 @@ static void	padding_user_and_group(t_fileinfo **info, t_ls *ls)
 		ls->pad.pad_gr = length_gr;
 }
 
+static void	padding_file_size(t_fileinfo *info, t_ls *ls)
+{
+	size_t	size;
+
+	size = 0;
+	if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
+	{
+		size = ft_numlength_base(major(info->lstat.st_rdev), 10);
+		if (size > ls->pad.pad_major)
+			ls->pad.pad_major = size;
+		size = 0;
+		size = ft_numlength_base(minor(info->lstat.st_rdev), 10);
+		if (size > ls->pad.pad_minor)
+			ls->pad.pad_minor = size;
+		if ((ls->pad.pad_major + ls->pad.pad_minor + 2) >= ls->pad.pad_size)
+			ls->pad.pad_size = (ls->pad.pad_major + ls->pad.pad_minor + 2);
+	}
+	else
+	{
+		ls->len_size = ft_strlen(info->file_size);
+		if (ls->len_size > ls->pad.pad_size)
+			ls->pad.pad_size = ls->len_size;
+	}
+}
+
 int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
 {
 	t_list		*tmp;
@@ -94,9 +119,7 @@ int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
 			padding_user_and_group(&info, ls);
 			if (get_time_string(info) == -1)
 				return (-1);
-			ls->len_size = ft_strlen(info->file_size);
-			if (ls->len_size > ls->pad.pad_size)
-				ls->pad.pad_size = ls->len_size;
+			padding_file_size(info, ls);
 			ls->total_blocks += info->lstat.st_blocks;
 		}
 		tmp = tmp->next;
