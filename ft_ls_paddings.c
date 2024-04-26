@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/25 19:18:34 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:53:11 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ static void	padding_file_size(t_fileinfo *info, t_ls *ls)
 			ls->pad.pad_minor = size;
 		if ((ls->pad.pad_major + ls->pad.pad_minor + 2) >= ls->pad.pad_size)
 			ls->pad.pad_size = (ls->pad.pad_major + ls->pad.pad_minor + 2);
+		else
+			ls->pad.pad_major = ls->pad.pad_size - ls->pad.pad_minor - 2;
 	}
 	else
 	{
