@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/23 17:18:46 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:52:32 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	print_error_folder(t_fileinfo *info, t_ls *ls)
 {
 	if (info->rel_path)
-		ft_dprintf(2, "ft_ls: %s: %s\n", info->rel_path, strerror(13));
+		ft_dprintf(2, "ft_ls: %s: %s\n", info->rel_path, strerror(info->er_fl));
 	else if (info->name)
-		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(13));
+		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_fl));
 	ls->exit_status = 1;
 }
 

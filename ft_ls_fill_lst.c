@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/19 18:47:30 by corellan         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:00:15 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
 			return (-1);
 		}
 	}
+	else
+		(*info)->er_fl = errno;
 	return (0);
 }
 
