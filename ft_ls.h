@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/26 17:51:33 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/06 21:22:44 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ int		calculate_paddings(t_list **begin, t_ls *ls, t_lstls type);
 void	store_attributes(t_fileinfo *info, t_ls *ls);
 int		print_folder(t_list **begin, t_ls *ls, int flag);
 int		loop_dir(t_fileinfo *info, t_ls *ls, t_dircol *col, DIR **tmpdir);
+void	check_special_files(t_fileinfo *info, t_ls *ls);
+void	padding_file_size(t_fileinfo *info, t_ls *ls);
 
 #endif

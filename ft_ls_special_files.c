@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 17:10:50 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/30 17:20:42 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/06 21:37:51 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,12 @@
 
 void	padding_file_size(t_fileinfo *info, t_ls *ls)
 {
-	size_t	size;
-
-	size = 0;
 	if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
 	{
-		size = ft_numlength_base(major(info->lstat.st_rdev), 10);
-		if (size > ls->pad.pad_major)
-			ls->pad.pad_major = size;
-		size = 0;
-		size = ft_numlength_base(minor(info->lstat.st_rdev), 10);
-		if (size > ls->pad.pad_minor)
-			ls->pad.pad_minor = size;
-		if ((ls->pad.pad_major + ls->pad.pad_minor + 2) >= ls->pad.pad_size)
-			ls->pad.pad_size = (ls->pad.pad_major + ls->pad.pad_minor + 2);
-		else
-			ls->pad.pad_major = ls->pad.pad_size - ls->pad.pad_minor - 2;
+		ls->len_size = ft_numlength_base(info->lstat.st_rdev, 16);
+		ls->len_size += 2;
+		if (ls->len_size > ls->pad.pad_size)
+			ls->pad.pad_size = ls->len_size;
 	}
 	else
 	{
@@ -39,6 +29,14 @@ void	padding_file_size(t_fileinfo *info, t_ls *ls)
 		if (ls->len_size > ls->pad.pad_size)
 			ls->pad.pad_size = ls->len_size;
 	}
+}
+
+void	check_special_files(t_fileinfo *info, t_ls *ls)
+{
+	if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
+		ft_printf("%#x ", ls->pad.pad_size, (unsigned int)info->lstat.st_rdev);
+	else
+		ft_printf("%*s ", ls->pad.pad_size, info->file_size);
 }
 #else
 
@@ -67,5 +65,16 @@ void	padding_file_size(t_fileinfo *info, t_ls *ls)
 		if (ls->len_size > ls->pad.pad_size)
 			ls->pad.pad_size = ls->len_size;
 	}
+}
+
+void	check_special_files(t_fileinfo *info, t_ls *ls)
+{
+	if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
+	{
+		ft_printf("%*d, ", ls->pad.pad_major, major(info->lstat.st_rdev));
+		ft_printf("%*d ", ls->pad.pad_minor, minor(info->lstat.st_rdev));
+	}
+	else
+		ft_printf("%*s ", ls->pad.pad_size, info->file_size);
 }
 #endif
