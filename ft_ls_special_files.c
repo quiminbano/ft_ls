@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 17:10:50 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/06 21:37:51 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/07 12:09:45 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	padding_file_size(t_fileinfo *info, t_ls *ls)
 {
 	if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
 	{
-		ls->len_size = ft_numlength_base(info->lstat.st_rdev, 16);
+		ls->len_size = ft_numlength_base((size_t)info->lstat.st_rdev, 16);
 		ls->len_size += 2;
 		if (ls->len_size > ls->pad.pad_size)
 			ls->pad.pad_size = ls->len_size;
@@ -33,8 +33,11 @@ void	padding_file_size(t_fileinfo *info, t_ls *ls)
 
 void	check_special_files(t_fileinfo *info, t_ls *ls)
 {
+	unsigned int	temp;
+
+	temp = (unsigned int)info->lstat.st_rdev;
 	if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
-		ft_printf("%#x ", ls->pad.pad_size, (unsigned int)info->lstat.st_rdev);
+		ft_printf("%#*x ", ls->pad.pad_size, temp);
 	else
 		ft_printf("%*s ", ls->pad.pad_size, info->file_size);
 }
