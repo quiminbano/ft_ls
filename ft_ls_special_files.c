@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 17:10:50 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/07 12:09:45 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/07 14:06:30 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	padding_file_size(t_fileinfo *info, t_ls *ls)
 		size = ft_numlength_base(minor(info->lstat.st_rdev), 10);
 		if (size > ls->pad.pad_minor)
 			ls->pad.pad_minor = size;
+		if (ls->pad.pad_minor > 3)
+			ls->pad.pad_minor = 3;
 		if ((ls->pad.pad_major + ls->pad.pad_minor + 2) >= ls->pad.pad_size)
 			ls->pad.pad_size = (ls->pad.pad_major + ls->pad.pad_minor + 2);
 		else
@@ -72,10 +74,18 @@ void	padding_file_size(t_fileinfo *info, t_ls *ls)
 
 void	check_special_files(t_fileinfo *info, t_ls *ls)
 {
+	int	minor_dev;
+	int	major_dev;
+
+	minor_dev = minor(info->lstat.st_rdev);
+	major_dev = major(info->lstat.st_rdev);
 	if (S_ISBLK(info->lstat.st_mode) || S_ISCHR(info->lstat.st_mode))
 	{
-		ft_printf("%*d, ", ls->pad.pad_major, major(info->lstat.st_rdev));
-		ft_printf("%*d ", ls->pad.pad_minor, minor(info->lstat.st_rdev));
+		ft_printf("%*d, ", ls->pad.pad_major, major_dev);
+		if (minor_dev <= 255 && minor_dev >= 0)
+			ft_printf("%*d ", ls->pad.pad_minor, minor_dev);
+		else
+			ft_printf("%#08x ", minor_dev);
 	}
 	else
 		ft_printf("%*s ", ls->pad.pad_size, info->file_size);
