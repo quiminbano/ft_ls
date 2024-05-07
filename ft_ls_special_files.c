@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 17:10:50 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/07 14:06:30 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:22:41 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	check_special_files(t_fileinfo *info, t_ls *ls)
 		if (minor_dev <= 255 && minor_dev >= 0)
 			ft_printf("%*d ", ls->pad.pad_minor, minor_dev);
 		else
-			ft_printf("%#08x ", minor_dev);
+			ft_printf("%#010x ", minor_dev);
 	}
 	else
 		ft_printf("%*s ", ls->pad.pad_size, info->file_size);
