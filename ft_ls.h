@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/06 21:22:44 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:20:42 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # include <string.h>
 # include <time.h>
 # include <errno.h>
+
+# ifdef __linux__
+#  include <sys/types.h>
+# endif
 
 # define SIX_MONTHS 15811200
 
@@ -52,7 +56,11 @@ typedef struct s_fileinfo
 	char			*rel_path;
 	char			*time;
 	char			*file_size;
-	int				er_fl;
+	char			lk[PATH_MAX];
+	int				er_st;
+	int				er_lk;
+	int				er_dr;
+	int				is_dir;
 	struct stat		stat;
 	struct stat		lstat;
 	struct passwd	*pw;

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/26 18:00:15 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:41:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,21 @@ static int	assign_strings(t_fileinfo **info, t_ls *ls, t_lstls type)
 	(*info)->name = ls->tmpdir;
 	ls->tmpdir = NULL;
 	if (type == ARGUMENT)
+	{
+		ls->stat_status = lstat((*info)->name, &((*info)->lstat));
+		if (ls->stat_status == -1)
+			(*info)->er_st = errno;
 		return (0);
+	}
 	(*info)->rel_path = ls->tmpinter;
 	ls->tmpinter = NULL;
 	(*info)->rel_path = ft_strjoin_append((*info)->rel_path, (*info)->name, \
 		ft_strlen((*info)->name));
 	if (!(*info)->rel_path)
 		return (-1);
+	ls->stat_status = lstat((*info)->rel_path, &((*info)->lstat));
+	if (ls->stat_status == -1)
+		(*info)->er_st = errno;
 	return (0);
 }
 
@@ -35,10 +43,6 @@ static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
 		(*info) = NULL;
 		return (-1);
 	}
-	if (type == ARGUMENT)
-		ls->stat_status = lstat((*info)->name, &((*info)->lstat));
-	else
-		ls->stat_status = lstat((*info)->rel_path, &((*info)->lstat));
 	if (ls->stat_status != -1)
 	{
 		(*info)->file_size = ft_lltoa((*info)->lstat.st_size);
@@ -48,9 +52,11 @@ static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
 			(*info) = NULL;
 			return (-1);
 		}
+		if (S_ISDIR((*info)->lstat.st_mode))
+			(*info)->is_dir = 1;
+		if (S_ISLNK((*info)->lstat.st_mode))
+			process_link(info, ls, type);
 	}
-	else
-		(*info)->er_fl = errno;
 	return (0);
 }
 
@@ -109,7 +115,7 @@ int	check_files_args(t_ls *ls)
 			return (free_lst(&(ls->dir), &(ls->file), &(ls->error)));
 		if (ls->stat_status == -1)
 			ft_lstadd_back(&(ls->error), tmp);
-		else if (S_ISDIR(((t_fileinfo *)tmp->content)->lstat.st_mode))
+		else if (((t_fileinfo *)tmp->content)->is_dir)
 			ft_lstadd_back(&(ls->dir), tmp);
 		else
 			ft_lstadd_back(&(ls->file), tmp);

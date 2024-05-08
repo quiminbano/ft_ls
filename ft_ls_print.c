@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/06 21:27:42 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:12:23 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ static void	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 		((ls->flags_info >> LFLAG) & 1))
 		ft_printf("total %d\n", ls->total_blocks);
 	if (error == 1)
-		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_fl));
+	{
+		if (info->er_st)
+			ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_st));
+		else if (info->er_lk)
+			ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_lk));
+	}
 	else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
 		(!((ls->flags_info >> AFLAG) & 1) && info->name[0] != '.'))
 		print_file(info, ls);

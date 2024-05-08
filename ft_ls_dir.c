@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/26 17:52:32 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:14:32 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 
 static void	print_error_folder(t_fileinfo *info, t_ls *ls)
 {
-	if (info->rel_path)
-		ft_dprintf(2, "ft_ls: %s: %s\n", info->rel_path, strerror(info->er_fl));
+	int	check_error;
+
+	if (!info->er_lk)
+		check_error = info->er_st;
+	else
+		check_error = info->er_lk;
+	if (!check_error && S_ISDIR(info->lstat.st_mode))
+		ft_dprintf(2, "ft_ls: %s: directory causes a cycle\n", info->rel_path);
+	else if (info->rel_path)
+		ft_dprintf(2, "ft_ls: %s: %s\n", info->rel_path, strerror(info->er_dr));
 	else if (info->name)
-		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_fl));
+		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_dr));
 	ls->exit_status = 1;
 }
 
@@ -33,6 +41,8 @@ static int	process_folder(t_fileinfo *info, t_ls *ls)
 		tmpdir = opendir(info->rel_path);
 	else
 		tmpdir = opendir(info->name);
+	if (!tmpdir)
+		info->er_dr = errno;
 	if (!tmpdir)
 		return (-2);
 	if (loop_dir(info, ls, &col, &tmpdir) == -1)
