@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/08 13:14:32 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:21:56 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,23 @@ static void	print_error_folder(t_fileinfo *info, t_ls *ls)
 		check_error = info->er_st;
 	else
 		check_error = info->er_lk;
-	if (!check_error && S_ISDIR(info->lstat.st_mode))
-		ft_dprintf(2, "ft_ls: %s: directory causes a cycle\n", info->rel_path);
+	if (!check_error && S_ISDIR(info->lstat.st_mode) && info->er_dr == EBADF)
+		ft_dprintf(2, "ft_ls: %s: directory causes a cycle\n", info->name);
 	else if (info->rel_path)
 		ft_dprintf(2, "ft_ls: %s: %s\n", info->rel_path, strerror(info->er_dr));
 	else if (info->name)
 		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_dr));
 	ls->exit_status = 1;
+}
+
+static void	open_directory(t_fileinfo *info, DIR **tmpdir)
+{
+	if (S_ISLNK(info->lstat.st_mode) && S_ISDIR(info->stat.st_mode))
+		(*tmpdir) = opendir(info->lk);
+	else if (info->rel_path)
+		(*tmpdir) = opendir(info->rel_path);
+	else
+		(*tmpdir) = opendir(info->name);
 }
 
 static int	process_folder(t_fileinfo *info, t_ls *ls)
@@ -37,10 +47,7 @@ static int	process_folder(t_fileinfo *info, t_ls *ls)
 
 	return_dir = 0;
 	ft_bzero(&(col), sizeof(col));
-	if (info->rel_path)
-		tmpdir = opendir(info->rel_path);
-	else
-		tmpdir = opendir(info->name);
+	open_directory(info, &tmpdir);
 	if (!tmpdir)
 		info->er_dr = errno;
 	if (!tmpdir)

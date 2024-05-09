@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/08 14:41:09 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:06:38 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
 		if (S_ISDIR((*info)->lstat.st_mode))
 			(*info)->is_dir = 1;
 		if (S_ISLNK((*info)->lstat.st_mode))
-			process_link(info, ls, type);
+			process_link(info, type);
 	}
 	return (0);
 }
