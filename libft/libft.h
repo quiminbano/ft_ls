@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 08:50:51 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/19 12:26:09 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:54:36 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <limits.h>
 # include "gnl/get_next_line.h"
 # include "ft_printf/ft_printf.h"
+# ifdef __linux__
+#  include <stdint.h>
+# else
+#  include <limits.h>
+# endif
 
 typedef struct s_list
 {
