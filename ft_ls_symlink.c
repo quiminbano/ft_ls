@@ -6,13 +6,13 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:28:13 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/09 17:07:48 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:29:49 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	process_link(t_fileinfo **info, t_lstls type)
+void	process_link(t_fileinfo **info, t_lstls type, t_ls *ls)
 {
 	ssize_t	rlink_return;
 	int		st_status;
@@ -37,6 +37,6 @@ void	process_link(t_fileinfo **info, t_lstls type)
 		(*info)->er_lk = errno;
 		return ;
 	}
-	if (S_ISDIR((*info)->stat.st_mode))
+	if (S_ISDIR((*info)->stat.st_mode) && !((ls->flags_info >> LFLAG) & 1))
 		(*info)->is_dir = 1;
 }

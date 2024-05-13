@@ -6,13 +6,21 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/08 13:12:23 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:13:18 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	print_file(t_fileinfo *info, t_ls *ls)
+static void	print_filename(t_fileinfo *info, t_ls *ls)
+{
+	ft_printf("%s", info->name);
+	if (((ls->flags_info >> LFLAG) & 1) && (S_ISLNK(info->lstat.st_mode)))
+		ft_printf(" -> %s", info->lk);
+	ft_printf("\n");
+}
+
+static void	print_filedata(t_fileinfo *info, t_ls *ls)
 {
 	ft_bzero(ls->perm, sizeof(ls->perm));
 	if (((ls->flags_info >> LFLAG) & 1))
@@ -32,7 +40,7 @@ static void	print_file(t_fileinfo *info, t_ls *ls)
 		check_special_files(info, ls);
 		ft_printf("%s ", info->time);
 	}
-	ft_printf("%s\n", info->name);
+	print_filename(info, ls);
 }
 
 static void	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
@@ -52,7 +60,7 @@ static void	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 	}
 	else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
 		(!((ls->flags_info >> AFLAG) & 1) && info->name[0] != '.'))
-		print_file(info, ls);
+		print_filedata(info, ls);
 }
 
 int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)

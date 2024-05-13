@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/09 17:06:38 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:31:29 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	fill_info(t_fileinfo **info, t_ls *ls, t_lstls type)
 		if (S_ISDIR((*info)->lstat.st_mode))
 			(*info)->is_dir = 1;
 		if (S_ISLNK((*info)->lstat.st_mode))
-			process_link(info, type);
+			process_link(info, type, ls);
 	}
 	return (0);
 }
@@ -113,7 +113,8 @@ int	check_files_args(t_ls *ls)
 		tmp = process_argument(ls, ls->av[i], ARGUMENT);
 		if (!tmp)
 			return (free_lst(&(ls->dir), &(ls->file), &(ls->error)));
-		if (ls->stat_status == -1)
+		if (((t_fileinfo *)tmp->content)->er_st || \
+			((t_fileinfo *)tmp->content)->er_lk)
 			ft_lstadd_back(&(ls->error), tmp);
 		else if (((t_fileinfo *)tmp->content)->is_dir)
 			ft_lstadd_back(&(ls->dir), tmp);
