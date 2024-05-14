@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:18:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/13 17:49:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/14 08:17:19 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,58 @@ static int	make_comparisions(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
 	return (0);
 }
 
+static t_list	*merge_lst(t_list *a, t_list *b, t_ls *ls, unsigned int bk)
+{
+	t_list		*result;
+	t_fileinfo	*info_a;
+	t_fileinfo	*info_b;
+
+	result = NULL;
+	if (!a)
+		return (b);
+	else if (!b)
+		return (a);
+	info_a = (t_fileinfo *)a->content;
+	info_b = (t_fileinfo *)b->content;
+	if (!make_comparisions(info_a, info_b, bk))
+	{
+		result = a;
+		result->next = merge_lst(a->next, b, ls, bk);
+	}
+	else
+	{
+		result = b;
+		result->next = merge_lst(a, b->next, ls, bk);
+	}
+	return (result);
+}
+
+static void	split_lst(t_list *head, t_list **fr, t_list **bc)
+{
+	t_list	*fast;
+	t_list	*slow;
+
+	slow = head;
+	fast = head->next;
+	while (fast)
+	{
+		fast = fast->next;
+		if (fast)
+		{
+			slow = slow->next;
+			fast = fast->next;
+		}
+	}
+	(*fr) = head;
+	(*bc) = slow->next;
+	slow->next = NULL;
+}
+
 void	sort_input(t_ls *ls, t_list **begin, int flag)
 {
 	t_list			*tmp;
-	t_fileinfo		*inf;
-	t_fileinfo		*nxt;
+	t_list			*a;
+	t_list			*b;
 	unsigned int	bk;
 
 	tmp = *begin;
@@ -42,18 +89,12 @@ void	sort_input(t_ls *ls, t_list **begin, int flag)
 		bk = 0;
 	else
 		bk = ls->flags_info;
-	if (!tmp)
+	if (!tmp || !(tmp->next))
 		return ;
-	while (tmp->next != NULL)
-	{
-		inf = tmp->content;
-		nxt = tmp->next->content;
-		if (make_comparisions(inf, nxt, bk) == 1)
-		{
-			swap_pointers(&(tmp->content), &(tmp->next->content));
-			tmp = *begin;
-		}
-		else
-			tmp = tmp->next;
-	}
+	a = NULL;
+	b = NULL;
+	split_lst(tmp, &a, &b);
+	sort_input(ls, &a, flag);
+	sort_input(ls, &b, flag);
+	*begin = merge_lst(a, b, ls, bk);
 }
