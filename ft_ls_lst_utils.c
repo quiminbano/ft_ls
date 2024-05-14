@@ -6,20 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 09:07:41 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/22 12:17:52 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/14 09:55:17 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-void	swap_pointers(void **a, void **b)
-{
-	void	*tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
 
 void	delete_fileinfo(void *fileinfo)
 {

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/13 15:55:20 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:17:55 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	process_folder(t_fileinfo *info, t_ls *ls)
 		return_dir = -1;
 	if (print_folder(&(col.dir), ls, 1))
 		return_dir = -1;
-	free_lst(&(col.dir), &(col.files), NULL);
+	free_lst(&(col.dir), &(col.files), &(col.err));
 	return (return_dir);
 }
 

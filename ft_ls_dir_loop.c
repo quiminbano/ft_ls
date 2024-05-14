@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 11:43:55 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/13 15:33:36 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:16:43 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static int	dir_lst(t_list **fil, t_ls *ls, struct dirent *dat, t_fileinfo *inf)
 		ls->tmpinter = NULL;
 		return (-1);
 	}
-	ft_lstadd_back(fil, tmp);
+	if (ls->stat_status != -1)
+		ft_lstadd_back(fil, tmp);
 	ls->last = tmp;
 	return (0);
 }
@@ -68,6 +69,8 @@ int	loop_dir(t_fileinfo *info, t_ls *ls, t_dircol *col, DIR **tmpdir)
 			return (-1);
 		}
 		last = ls->last->content;
+		if (ls->stat_status == -1)
+			ft_lstadd_back(&(col->err), ls->last);
 		if (is_rec(last, ls) && \
 			dir_lst(&(col->dir), ls, data, info) == -1)
 		{

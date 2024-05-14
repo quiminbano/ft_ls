@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/13 20:54:09 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:04:41 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_dircol
 {
 	t_list	*files;
 	t_list	*dir;
+	t_list	*err;
 }	t_dircol;
 
 typedef struct s_lspad
@@ -113,7 +114,6 @@ int		valid_flag(t_ls *ls);
 int		check_files_args(t_ls *ls);
 t_list	*process_argument(t_ls *ls, const char *input, t_lstls type);
 void	sort_input(t_ls *ls, t_list **begin, int flag);
-void	swap_pointers(void **a, void **b);
 int		free_lst(t_list **dir, t_list **file, t_list **err);
 void	delete_fileinfo(void *fileinfo);
 int		print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type);
