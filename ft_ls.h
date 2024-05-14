@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/14 14:04:41 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:21:08 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <errno.h>
 
 # ifdef __linux__
-#  include <sys/types.h>
+#  include <sys/sysmacros.h>
 # endif
 
 # define SIX_MONTHS 15811200
