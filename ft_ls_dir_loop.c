@@ -6,20 +6,27 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 11:43:55 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/14 14:16:43 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:44:22 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+static void	app_dir(t_ls *ls, t_fileinfo *inf)
+{
+	if (inf->rel_path)
+		ls->tmpinter = ft_strjoin(inf->rel_path, "/");
+	else if (inf->name && !ft_strcmp(inf->name, "/"))
+		ls->tmpinter = ft_strjoin("", "/");
+	else
+		ls->tmpinter = ft_strjoin(inf->name, "/");	
+}
+
 static int	dir_lst(t_list **fil, t_ls *ls, struct dirent *dat, t_fileinfo *inf)
 {
 	t_list	*tmp;
 
-	if (inf->rel_path)
-		ls->tmpinter = ft_strjoin(inf->rel_path, "/");
-	else
-		ls->tmpinter = ft_strjoin(inf->name, "/");
+	app_dir(ls, inf);
 	if (!ls->tmpinter)
 	{
 		free_lst(NULL, fil, NULL);
