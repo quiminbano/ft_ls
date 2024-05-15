@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/15 16:36:34 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/15 17:16:51 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
 	if (!begin || !(*begin))
 		return (0);
 	tmp = *begin;
-	if (((ls->flags_info >> AFLAG) & 1) || ft_lstsize(tmp) > 2)
+	if ((type == ARGUMENT) || ((ls->flags_info >> AFLAG) & 1) || \
+		ft_lstsize(tmp) > 2)
 		ls->iter_lst = 0;
 	else
 		ls->iter_lst = 1;
