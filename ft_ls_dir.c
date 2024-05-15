@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/14 14:17:55 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:10:58 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void	print_error_folder(t_fileinfo *info, t_ls *ls)
 		check_error = info->er_lk;
 	if (!check_error && S_ISDIR(info->lstat.st_mode) && info->er_dr == EBADF)
 		ft_dprintf(2, "ft_ls: %s: directory causes a cycle\n", info->name);
-	else if (info->rel_path)
-		ft_dprintf(2, "ft_ls: %s: %s\n", info->rel_path, strerror(info->er_dr));
 	else if (info->name)
 		ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_dr));
 	ls->exit_status = 1;

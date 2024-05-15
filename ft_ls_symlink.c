@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:28:13 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/13 12:29:49 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:00:10 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,12 @@
 void	process_link(t_fileinfo **info, t_lstls type, t_ls *ls)
 {
 	ssize_t	rlink_return;
-	int		st_status;
 
 	rlink_return = 0;
-	st_status = 0;
 	if (type == ARGUMENT)
-		st_status = stat((*info)->name, &((*info)->stat));
+	stat((*info)->name, &((*info)->stat));
 	else if ((*info)->rel_path)
-		st_status = stat((*info)->rel_path, &((*info)->stat));
-	if (st_status == -1)
-	{
-		(*info)->er_lk = errno;
-		return ;
-	}
+	stat((*info)->rel_path, &((*info)->stat));
 	if (type == ARGUMENT)
 		rlink_return = readlink((*info)->name, (*info)->lk, (PATH_MAX - 1));
 	else if ((*info)->rel_path)
