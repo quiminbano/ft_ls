@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:28:13 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/15 12:00:10 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:54:28 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	process_link(t_fileinfo **info, t_lstls type, t_ls *ls)
 
 	rlink_return = 0;
 	if (type == ARGUMENT)
-	stat((*info)->name, &((*info)->stat));
+		stat((*info)->name, &((*info)->stat));
 	else if ((*info)->rel_path)
-	stat((*info)->rel_path, &((*info)->stat));
+		stat((*info)->rel_path, &((*info)->stat));
 	if (type == ARGUMENT)
 		rlink_return = readlink((*info)->name, (*info)->lk, (PATH_MAX - 1));
 	else if ((*info)->rel_path)

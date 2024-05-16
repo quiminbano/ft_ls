@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 11:43:55 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/14 16:44:22 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:54:06 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	app_dir(t_ls *ls, t_fileinfo *inf)
 	else if (inf->name && !ft_strcmp(inf->name, "/"))
 		ls->tmpinter = ft_strjoin("", "/");
 	else
-		ls->tmpinter = ft_strjoin(inf->name, "/");	
+		ls->tmpinter = ft_strjoin(inf->name, "/");
 }
 
 static int	dir_lst(t_list **fil, t_ls *ls, struct dirent *dat, t_fileinfo *inf)
