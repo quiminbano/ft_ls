@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 14:39:46 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:21:57 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	fill_flags(char flag, t_ls *ls)
 
 static int	iterate_flags(const char *str, t_ls *ls)
 {
-	const char	*flags = "GRadfglrtu@1";
+	const char	*flags = "GRadefglrtu@1";
 	size_t		i;
 	size_t		j;
 

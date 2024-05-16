@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 15:15:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:53:52 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,27 @@
 static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
 {
 	if (info->rel_path && listxattr(info->rel_path, NULL, 0, 0) > 0)
+	{
 		ls->perm[i] = '@';
+		info->ext_size = listxattr(info->rel_path, NULL, 0, 0);
+	}
 	else if (listxattr(info->name, NULL, 0, 0) > 0)
+	{
 		ls->perm[i] = '@';
+		info->ext_size = listxattr(info->name, NULL, 0, 0);
+	}
 	else if (info->rel_path && \
-		getxattr(info->rel_path, "system.acl", NULL, 0, 0, 0))
+		getxattr(info->rel_path, "system.acl", NULL, 0, 0, 0) > 0)
+	{
 		ls->perm[i] = '+';
-	else if (info->name && getxattr(info->name, "system.acl", NULL, 0, 0, 0))
+		info->acl_size = getxattr(info->rel_path, "system.acl", NULL, 0, 0, 0);
+	}
+	else if (info->name && \
+		getxattr(info->name, "system.acl", NULL, 0, 0, 0) > 0)
+	{
 		ls->perm[i] = '+';
+		info->acl_size = getxattr(info->name, "system.acl", NULL, 0, 0, 0);
+	}
 	else
 		ls->perm[i] = ' ';
 }
@@ -33,14 +46,26 @@ static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
 static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
 {
 	if (info->rel_path && listxattr(info->rel_path, NULL, 0) > 0)
+	{
 		ls->perm[i] = '@';
+		info->ext_size = listxattr(info->rel_path, NULL, 0);
+	}
 	else if (listxattr(info->name, NULL, 0) > 0)
+	{
 		ls->perm[i] = '@';
+		info->ext_size = listxattr(info->name, NULL, 0);
+	}
 	else if (info->rel_path && \
 		getxattr(info->rel_path, "system.acl", NULL, 0))
+	{
 		ls->perm[i] = '+';
+		info->acl_size = getxattr(info->rel_path, "system.acl", NULL, 0);
+	}
 	else if (info->name && getxattr(info->name, "system.acl", NULL, 0))
+	{
 		ls->perm[i] = '+';
+		info->acl_size = getxattr(info->name, "system.acl", NULL, 0);
+	}
 	else
 		ls->perm[i] = ' ';
 }
