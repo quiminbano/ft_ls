@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls.h                                            :+:      :+:    :+:   */
+/*   ft_ls_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 15:02:30 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:40:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_LS_H
-# define FT_LS_H
+#ifndef FT_LS_BONUS_H
+# define FT_LS_BONUS_H
 
 # include "libft/libft.h"
 # include <sys/stat.h>
 # include <dirent.h>
 # include <pwd.h>
 # include <grp.h>
+# include <sys/xattr.h>
 # include <string.h>
 # include <time.h>
 # include <errno.h>
+# include <termios.h>
 
 # ifdef __linux__
 #  include <sys/sysmacros.h>
@@ -42,11 +44,19 @@ typedef enum e_lstls
 
 typedef enum e_lsflags
 {
+	GEEFLAG,
 	RECFLAG,
 	AFLAG,
+	DFLAG,
+	EFLAG,
+	FFLAG,
+	GFLAG,
 	LFLAG,
 	RFLAG,
-	TFLAG
+	TFLAG,
+	UFLAG,
+	ATFLAG,
+	ONEFLAG
 }	t_lsflags;
 
 typedef struct s_fileinfo
