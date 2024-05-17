@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 17:13:47 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/17 17:48:15 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,8 @@ void	check_special_files(t_fileinfo *info, t_ls *ls);
 void	padding_file_size(t_fileinfo *info, t_ls *ls);
 void	process_link(t_fileinfo **info, t_lstls type, t_ls *ls);
 void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err);
+void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
+void	print_ext(t_fileinfo *info, char *ext_at);
+void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
 
 #endif
