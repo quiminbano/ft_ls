@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/20 19:33:47 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:02:56 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,25 @@
 
 static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
 {
-	char		*path;
-	acl_t		acl;
+	char	*path;
 
 	path = info->rel_path;
 	if (!path)
 		path = info->name;
-	acl = NULL;
-	acl = acl_get_file(path, ACL_TYPE_EXTENDED);
+	info->acl = NULL;
+	info->acl = acl_get_file(path, ACL_TYPE_EXTENDED);
 	if (listxattr(path, NULL, 0, 0) > 0)
 	{
 		ls->perm[i] = '@';
 		info->ext_size = listxattr(path, NULL, 0, 0);
 	}
-	else if (acl)
+	else if (info->acl)
 	{
 		ls->perm[i] = '+';
 		info->acl_size = 20;
 	}
 	else
 		ls->perm[i] = ' ';
-	if (acl)
-		acl_free(acl);
-	acl = NULL;
 }
 #else
 

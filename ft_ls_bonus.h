@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/20 18:56:31 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:02:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef enum e_lsflags
 
 typedef struct s_fileinfo
 {
+	acl_t			acl;
 	char			*name;
 	char			*rel_path;
 	char			*time;

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 09:07:41 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 14:00:11 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:27:38 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,18 @@ void	delete_fileinfo(void *fileinfo)
 	if (!ptr)
 		return ;
 	if (ptr->name)
-		free(ptr->name);
-	ptr->name = NULL;
+		ft_del_mem((void **)(&ptr->name), &free);
 	ft_bzero(&(ptr->stat), sizeof(ptr->stat));
 	ft_bzero(&(ptr->lstat), sizeof(ptr->lstat));
 	if (ptr->time)
-		free(ptr->time);
-	ptr->time = NULL;
+		ft_del_mem((void **)(&ptr->time), &free);
 	if (ptr->file_size)
-		free(ptr->file_size);
-	ptr->file_size = NULL;
+		ft_del_mem((void **)(&ptr->file_size), &free);
 	if (ptr->rel_path)
-		free(ptr->rel_path);
-	ptr->rel_path = NULL;
-	free(ptr);
-	ptr = NULL;
+		ft_del_mem((void **)(&ptr->rel_path), &free);
+	if (ptr->acl)
+		ft_del_mem((void **)(&ptr->acl), &acl_free);
+	ft_del_mem((void **)(&ptr), &free);
 	fileinfo = NULL;
 }
 
