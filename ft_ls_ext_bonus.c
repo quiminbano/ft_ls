@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 16:29:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/21 11:14:11 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:44:25 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at)
 		listxattr(info->rel_path, (*ext_at), info->ext_size, 0) > 0)
 		return ;
 	else if (listxattr(info->name, (*ext_at), info->ext_size, 0) > 0)
-		ft_del_mem((void **)ext_at, &free);
+		ft_del_mem((void **)ext_at);
 		return ;
-	ft_del_mem((void **)ext_at, &free);
+	ft_del_mem((void **)ext_at);
 }
 #else
 
