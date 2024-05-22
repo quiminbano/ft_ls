@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/21 11:02:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/22 12:11:14 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef struct s_fileinfo
 	struct passwd	*pw;
 	struct group	*gr;
 	size_t			ext_size;
-	size_t			acl_size;
+	ssize_t			acl_size;
+	int				acl_usage;
 }	t_fileinfo;
 
 typedef struct s_dircol

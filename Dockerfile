@@ -1,7 +1,7 @@
 FROM alpine
 
 RUN apk update && \
-	echo "y" | apk add --no-cache alpine-sdk bash
+	echo "y" | apk add --no-cache alpine-sdk bash libacl
 
 WORKDIR /app
 

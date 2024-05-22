@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 14:00:58 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:08:36 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@ static const char	*get_year(const char *str)
 	return (str + length);
 }
 
-static int	get_time_string(t_fileinfo *info)
+static void	get_correct_time(t_fileinfo *info, t_ls *ls, char **time)
+{
+	if (!((ls->flags_info >> UFLAG) & 1))
+		(*time) = ctime(&(info->lstat.st_mtime));
+	else
+		(*time) = ctime(&(info->lstat.st_atime));
+}
+
+static int	get_time_string(t_fileinfo *info, t_ls *ls)
 {
 	time_t	time_nwd;
 	char	*time_file;
@@ -34,7 +42,7 @@ static int	get_time_string(t_fileinfo *info)
 
 	time_nwd = time(NULL);
 	flag = 0;
-	time_file = ctime(&(info->lstat.st_mtime));
+	get_correct_time(info, ls, &time_file);
 	if ((info->lstat.st_mtime >= (time_nwd - SIX_MONTHS)) && \
 		(info->lstat.st_mtime <= (time_nwd + SIX_MONTHS)))
 		info->time = ft_substr(time_file, 4, 12);
@@ -92,7 +100,7 @@ int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
 			if (ls->len_link > ls->pad.pad_hl)
 				ls->pad.pad_hl = ls->len_link;
 			padding_user_and_group(&info, ls);
-			if (get_time_string(info) == -1)
+			if (get_time_string(info, ls) == -1)
 				return (-1);
 			padding_file_size(info, ls);
 			ls->total_blocks += info->lstat.st_blocks;

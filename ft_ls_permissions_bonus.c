@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/21 11:02:56 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:33:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
 	else if (info->acl)
 	{
 		ls->perm[i] = '+';
-		info->acl_size = 20;
+		info->acl_usage = 1;
 	}
 	else
 		ls->perm[i] = ' ';

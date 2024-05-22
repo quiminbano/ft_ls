@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:18:05 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/21 11:44:11 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:40:24 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err)
 	if (acl_at)
 		ft_printf("%s\n", acl_at);
 	ft_del_mem((void **)(&ext_at));
-	ft_del_mem((void **)(&acl_at));
+	if (acl_at)
+		acl_free(acl_at);
+	acl_at = NULL;
 }

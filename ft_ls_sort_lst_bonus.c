@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:18:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 14:02:41 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:37:44 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,26 @@ static int	make_comparisions(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
 {
 	unsigned int	reverse;
 	unsigned int	time;
+	unsigned int	last_access;
 
 	reverse = ((bk >> RFLAG) & 1);
 	time = ((bk >> TFLAG) & 1);
+	last_access = ((bk >> UFLAG) & 1);
 	if (!time && !reverse && ft_strcmp(inf->name, nxt->name) >= 1)
 		return (1);
 	else if (!time && reverse && ft_strcmp(inf->name, nxt->name) <= -1)
 		return (1);
-	else if (time && !reverse && inf->lstat.st_mtime < nxt->lstat.st_mtime)
+	else if (time && !last_access && !reverse && \
+		inf->lstat.st_mtime < nxt->lstat.st_mtime)
 		return (1);
-	else if (time && reverse && inf->lstat.st_mtime > nxt->lstat.st_mtime)
+	else if (time && !last_access && reverse && \
+		inf->lstat.st_mtime > nxt->lstat.st_mtime)
+		return (1);
+	else if (time && last_access && !reverse && \
+		inf->lstat.st_atime < nxt->lstat.st_atime)
+		return (1);
+	else if (time && last_access && reverse && \
+		inf->lstat.st_atime > nxt->lstat.st_atime)
 		return (1);
 	return (0);
 }
@@ -89,7 +99,7 @@ void	sort_input(t_ls *ls, t_list **begin, int flag)
 		bk = 0;
 	else
 		bk = ls->flags_info;
-	if (!tmp || !(tmp->next))
+	if (!tmp || !(tmp->next) || ((ls->flags_info >> FFLAG) & 1))
 		return ;
 	a = NULL;
 	b = NULL;
