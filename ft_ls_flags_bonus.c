@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/23 12:18:54 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:11:58 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,42 +31,50 @@ void	count_options(t_ls *ls)
 
 static void	fill_flags_cont(char flag, t_ls *ls)
 {
-	if (flag == 'r')
-		ls->flags_info |= 256;
+	unsigned char	inverse;
+
+	inverse = ~(ls->flags_info);
+	if (flag == 'l' || flag == 'g')
+	{
+		inverse |= (1 << ONEFLAG);
+		ls->flags_info = ~(inverse);
+		ls->flags_info |= (1 << LFLAG);
+		if (flag == 'g')
+			ls->flags_info |= (1 << GFLAG);
+	}
+	else if (flag == 'r')
+		ls->flags_info |= (1 << RFLAG);
 	else if (flag == 't')
-		ls->flags_info |= 512;
+		ls->flags_info |= (1 << TFLAG);
 	else if (flag == 'u')
-		ls->flags_info |= 1024;
+		ls->flags_info |= (1 << UFLAG);
 	else if (flag == '@')
-		ls->flags_info |= 2048;
+		ls->flags_info |= (1 << ATFLAG);
 	else
-		ls->flags_info |= 4096;
+	{
+		inverse |= (1 << LFLAG);
+		ls->flags_info = ~(inverse);
+		ls->flags_info |= (1 << ONEFLAG);
+	}
 }
 
 static void	fill_flags(char flag, t_ls *ls)
 {
 	if (flag == 'G')
-		ls->flags_info |= 1;
+		ls->flags_info |= (1 << GEEFLAG);
 	else if (flag == 'R')
-		ls->flags_info |= 2;
+		ls->flags_info |= (1 << RECFLAG);
 	else if (flag == 'a')
-		ls->flags_info |= 4;
+		ls->flags_info |= (1 << AFLAG);
 	else if (flag == 'd')
-		ls->flags_info |= 8;
+		ls->flags_info |= (1 << DFLAG);
 	else if (flag == 'e')
-		ls->flags_info |= 16;
+		ls->flags_info |= (1 << EFLAG);
 	else if (flag == 'f')
 	{
-		ls->flags_info |= 4;
-		ls->flags_info |= 32;
+		ls->flags_info |= (1 << AFLAG);
+		ls->flags_info |= (1 << FFLAG);
 	}
-	else if (flag == 'g')
-	{
-		ls->flags_info |= 64;
-		ls->flags_info |= 128;
-	}
-	else if (flag == 'l')
-		ls->flags_info |= 128;
 	else
 		fill_flags_cont(flag, ls);
 }
@@ -93,6 +101,8 @@ static int	iterate_flags(const char *str, t_ls *ls)
 		i++;
 		fill_flags(ls->char_flag, ls);
 	}
+	if (!((ls->flags_info >> LFLAG)) && !((ls->flags_info >> ONEFLAG)))
+		ls->flags_info |= (1 << COLFORM);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/22 12:11:14 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:01:59 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ typedef enum e_lsflags
 	TFLAG,
 	UFLAG,
 	ATFLAG,
-	ONEFLAG
+	ONEFLAG,
+	COLFORM
 }	t_lsflags;
 
 typedef struct s_fileinfo
