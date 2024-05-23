@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/22 16:57:33 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:18:54 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,20 @@ void	count_options(t_ls *ls)
 	ls->starting_point = i;
 }
 
+static void	fill_flags_cont(char flag, t_ls *ls)
+{
+	if (flag == 'r')
+		ls->flags_info |= 256;
+	else if (flag == 't')
+		ls->flags_info |= 512;
+	else if (flag == 'u')
+		ls->flags_info |= 1024;
+	else if (flag == '@')
+		ls->flags_info |= 2048;
+	else
+		ls->flags_info |= 4096;
+}
+
 static void	fill_flags(char flag, t_ls *ls)
 {
 	if (flag == 'G')
@@ -42,21 +56,19 @@ static void	fill_flags(char flag, t_ls *ls)
 	else if (flag == 'e')
 		ls->flags_info |= 16;
 	else if (flag == 'f')
+	{
+		ls->flags_info |= 4;
 		ls->flags_info |= 32;
+	}
 	else if (flag == 'g')
+	{
 		ls->flags_info |= 64;
+		ls->flags_info |= 128;
+	}
 	else if (flag == 'l')
 		ls->flags_info |= 128;
-	else if (flag == 'r')
-		ls->flags_info |= 256;
-	else if (flag == 't')
-		ls->flags_info |= 512;
-	else if (flag == 'u')
-		ls->flags_info |= 1024;
-	else if (flag == '@')
-		ls->flags_info |= 2048;
 	else
-		ls->flags_info |= 4096;
+		fill_flags_cont(flag, ls);
 }
 
 static int	iterate_flags(const char *str, t_ls *ls)

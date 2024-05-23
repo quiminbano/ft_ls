@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/20 13:35:32 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:24:21 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
 		info->gr = getgrgid(info->lstat.st_gid);
 		store_attributes(info, ls);
 		ft_printf("%s %*d ", ls->perm, ls->pad.pad_hl, info->lstat.st_nlink);
-		if (info->pw)
+		if (info->pw && !((ls->flags_info >> GFLAG) & 1))
 			ft_printf("%-*s  ", ls->pad.pad_pw, info->pw->pw_name);
-		else
+		else if (!((ls->flags_info >> GFLAG) & 1))
 			ft_printf("%-*u  ", ls->pad.pad_pw, info->lstat.st_uid);
 		if (info->gr)
 			ft_printf("%-*s  ", ls->pad.pad_gr, info->gr->gr_name);
