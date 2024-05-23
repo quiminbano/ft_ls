@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 14:43:17 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:24:23 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int	main(int ac, char **av)
 	if (print_folder(&(ls.dir), &ls, 0) == -1)
 		return (error_messages(&ls, ALLOCERR));
 	free_lst(&ls.dir, &ls.file, &ls.error);
+	print_col(&ls);
 	return (ls.exit_status);
 }

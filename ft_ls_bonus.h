@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/23 13:01:59 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 15:11:43 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,6 @@ void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err);
 void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
 void	print_ext(t_fileinfo *info, char *ext_at);
 void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
+int		print_col(t_ls *ls);
 
 #endif
