@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/23 13:11:58 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:24:11 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ static int	iterate_flags(const char *str, t_ls *ls)
 		i++;
 		fill_flags(ls->char_flag, ls);
 	}
-	if (!((ls->flags_info >> LFLAG)) && !((ls->flags_info >> ONEFLAG)))
+	if (!((ls->flags_info >> LFLAG)) && !((ls->flags_info >> ONEFLAG)) && \
+		isatty(STDOUT_FILENO))
 		ls->flags_info |= (1 << COLFORM);
 	return (0);
 }
