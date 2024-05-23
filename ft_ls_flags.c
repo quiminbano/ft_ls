@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/23 13:16:50 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 21:55:40 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	iterate_flags(const char *str, t_ls *ls)
 
 int	valid_flag(t_ls *ls)
 {
-	size_t		i;
+	size_t	i;
 
 	i = 1;
 	while (i < ls->starting_point)

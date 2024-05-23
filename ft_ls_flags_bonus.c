@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/23 14:24:11 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/23 21:55:30 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	count_options(t_ls *ls)
 
 static void	fill_flags_cont(char flag, t_ls *ls)
 {
-	unsigned char	inverse;
+	unsigned int	inverse;
 
 	inverse = ~(ls->flags_info);
 	if (flag == 'l' || flag == 'g')
@@ -109,7 +109,7 @@ static int	iterate_flags(const char *str, t_ls *ls)
 
 int	valid_flag(t_ls *ls)
 {
-	size_t		i;
+	size_t	i;
 
 	i = 1;
 	while (i < ls->starting_point)
