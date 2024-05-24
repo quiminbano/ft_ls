@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/14 14:02:22 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:24:14 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	check_files_args(t_ls *ls)
 	t_list	*tmp;
 
 	i = ls->starting_point;
-	if (ls->ac == 1 || (ls->ac == 2 && ls->av[1][0] == '-'))
+	if (ls->ac == (int)i)
 		return (process_one_argument(ls, "."));
 	while ((int)i < ls->ac)
 	{
