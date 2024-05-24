@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/23 15:11:43 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:04:14 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <string.h>
 # include <time.h>
 # include <errno.h>
-# include <termios.h>
+# include <sys/ioctl.h>
 # include <sys/acl.h>
 
 # ifdef __linux__
