@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 11:43:55 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 13:59:21 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:57:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,28 @@ static int	is_rec(t_fileinfo *last, t_ls *ls)
 		return (0);
 	if (!ft_strcmp(".", last->name) || !ft_strcmp("..", last->name))
 		return (0);
-	if (!((ls->flags_info >> AFLAG) & 1) && last->name[0] == '.')
-		return (0);
 	return (1);
 }
 
 int	loop_dir(t_fileinfo *info, t_ls *ls, t_dircol *col, DIR **tmpdir)
 {
 	struct dirent	*data;
-	t_fileinfo		*last;
 
 	while (1)
 	{
 		data = readdir((*tmpdir));
 		if (!data)
 			break ;
+		if (!((ls->flags_info >> AFLAG) & 1) && data->d_name[0] == '.')
+			continue ;
 		if (dir_lst(&(col->files), ls, data, info) == -1)
 		{
 			closedir(*tmpdir);
 			return (-1);
 		}
-		last = ls->last->content;
 		if (ls->stat_status == -1)
 			ft_lstadd_back(&(col->err), ls->last);
-		if (is_rec(last, ls) && \
+		if (is_rec((t_fileinfo *)(ls->last->content), ls) && \
 			dir_lst(&(col->dir), ls, data, info) == -1)
 		{
 			closedir(*tmpdir);

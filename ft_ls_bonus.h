@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/24 18:10:55 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/26 21:46:10 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@
 # endif
 
 # define SIX_MONTHS 15811200
+
+# ifndef TABSPACE
+#  define TABSPACE 8
+# endif
+
+# if TABSPACE <= 0
+#  undef TABSPACE
+#  define TABSPACE 8
+# endif
 
 typedef enum e_erls
 {
@@ -61,6 +70,13 @@ typedef enum e_lsflags
 	COLFORM
 }	t_lsflags;
 
+typedef struct s_colformat
+{
+	size_t	ammount_col;
+	size_t	ammount_node;
+	size_t	lst_size;
+}	t_colformat;
+
 typedef struct s_fileinfo
 {
 	acl_t			acl;
@@ -78,6 +94,7 @@ typedef struct s_fileinfo
 	struct passwd	*pw;
 	struct group	*gr;
 	size_t			ext_size;
+	size_t			tab_pad;
 	ssize_t			acl_size;
 	int				acl_usage;
 }	t_fileinfo;
@@ -106,6 +123,7 @@ typedef struct s_ls
 	int				stat_status;
 	int				exit_status;
 	int				size_file_lst;
+	char			tab_str[4096];
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
@@ -132,6 +150,8 @@ t_list	*process_argument(t_ls *ls, const char *input, t_lstls type);
 void	sort_input(t_ls *ls, t_list **begin, int flag);
 int		free_lst(t_list **dir, t_list **file, t_list **err);
 void	delete_fileinfo(void *fileinfo);
+t_list	**dup_arr_lst(t_list **src);
+void	delete_lst_arr(t_list ***ptr);
 int		print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type);
 int		calculate_paddings(t_list **begin, t_ls *ls, t_lstls type);
 void	store_attributes(t_fileinfo *info, t_ls *ls);
@@ -144,6 +164,6 @@ void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err);
 void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
 void	print_ext(t_fileinfo *info, char *ext_at);
 void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
-int		print_col(t_ls *ls);
+int		print_col(t_ls *ls, t_list **begin);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/24 14:42:46 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/26 21:46:19 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int ac, char **av)
 	t_ls	ls;
 
 	ft_bzero(&ls, sizeof(ls));
+	ft_memset(ls.tab_str, '\t', 4095);
 	ls.ac = ac;
 	ls.av = av;
 	count_options(&ls);

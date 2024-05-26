@@ -6,11 +6,55 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 09:07:41 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/21 11:43:27 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/26 20:35:28 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
+
+static size_t	size_arr_lst(t_list **src)
+{
+	size_t	index;
+
+	index = 0;
+	while (src[index])
+		index++;
+	return (index);
+}
+
+void	delete_lst_arr(t_list ***ptr)
+{
+	size_t	index;
+
+	index = 0;
+	while ((*ptr)[index])
+	{
+		free_lst(&((*ptr)[index]), NULL, NULL);
+		(*ptr)[index] = NULL;
+		index++;
+	}
+	ft_del_mem((void **)ptr);
+}
+
+t_list	**dup_arr_lst(t_list **src)
+{
+	size_t	mem_alloc;
+	size_t	index;
+	t_list	**destination;
+
+	mem_alloc = size_arr_lst(src);
+	index = 0;
+	destination = (t_list **)malloc(sizeof(t_list *) * (mem_alloc + 1));
+	if (!destination)
+		return (NULL);
+	destination[mem_alloc] = NULL;
+	while (src[index])
+	{
+		destination[index] = src[index];
+		index++;
+	}
+	return (destination);
+}
 
 void	delete_fileinfo(void *fileinfo)
 {

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/24 18:12:04 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/25 23:55:59 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static void	padding_user_group_and_name(t_fileinfo **info, t_ls *ls)
 {
 	size_t	length_us;
 	size_t	length_gr;
-	size_t	name;
 
 	(*info)->pw = getpwuid((*info)->lstat.st_uid);
 	(*info)->gr = getgrgid((*info)->lstat.st_gid);
@@ -82,9 +81,6 @@ static void	padding_user_group_and_name(t_fileinfo **info, t_ls *ls)
 		length_gr = ft_numlength_base((*info)->lstat.st_gid, 10);
 	if (length_gr > ls->pad.pad_gr)
 		ls->pad.pad_gr = length_gr;
-	name = ft_strlen((*info)->name);
-	if (name > ls->pad.pad_name)
-		ls->pad.pad_name = name;
 }
 
 int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
