@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:47:11 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/26 22:13:29 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/26 22:44:17 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ static void	populate_array(t_list **begin, t_colformat *col_inf, t_list ***arr)
 		(*arr)[iter_col] = tmp;
 		while ((iter_node < col_inf->ammount_node) && tmp)
 		{
-			tmp = tmp->next;
 			iter_node++;
+			if (iter_node < col_inf->ammount_node && tmp)
+				tmp = tmp->next;
 		}
 		if (tmp)
 		{
