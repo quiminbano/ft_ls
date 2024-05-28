@@ -6,7 +6,7 @@
 #    By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 12:46:54 by corellan          #+#    #+#              #
-#    Updated: 2024/05/23 15:11:05 by corellan         ###   ########.fr        #
+#    Updated: 2024/05/28 16:44:48 by corellan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ ft_ls_lst_utils_bonus.c ft_ls_sort_lst_bonus.c ft_ls_permissions_bonus.c \
 ft_ls_print_bonus.c ft_ls_paddings_bonus.c ft_ls_dir_bonus.c \
 ft_ls_dir_loop_bonus.c ft_ls_special_files_bonus.c ft_ls_symlink_bonus.c \
 ft_ls_ext_acl_interface_bonus.c ft_ls_ext_bonus.c ft_ls_acl_bonus.c \
-ft_ls_col_format_bonus.c
+ft_ls_col_format_bonus.c ft_ls_colors_bonus.c
 
 OBJ = $(SRC:.c=.o)
 

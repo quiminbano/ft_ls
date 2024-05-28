@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/28 14:27:52 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:46:31 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@
 # define SIX_MONTHS 15811200
 
 # ifndef __APPLE__
-#  define SOCKCOL "\033[0;32m"
-#  define EXECCOL "\033[0;31m"
-# else
 #  define SOCKCOL "\033[0;31m"
 #  define EXECCOL "\033[0;32m"
+# else
+#  define SOCKCOL "\033[0;32m"
+#  define EXECCOL "\033[0;31m"
 # endif
 
 # define DIRCOL "\033[0;34m"
@@ -48,6 +48,7 @@
 # define XGIDCOL "\033[46;30m"
 # define STKCOL "\033[42;30m"
 # define WSTKCOL "\033[43;30m"
+# define RESET "\033[0m"
 
 # ifndef TABSPACE
 #  define TABSPACE 8
@@ -102,6 +103,8 @@ typedef struct s_fileinfo
 	char			*rel_path;
 	char			*time;
 	char			*file_size;
+	char			*color;
+	char			*end;
 	char			lk[PATH_MAX];
 	int				er_st;
 	int				er_lk;
@@ -147,6 +150,7 @@ typedef struct s_ls
 	char			*tmpdir;
 	char			*tmpinter;
 	char			perm[11];
+	char			empty[1];
 	size_t			starting_point;
 	size_t			len_link;
 	size_t			len_size;
@@ -183,5 +187,6 @@ void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
 void	print_ext(t_fileinfo *info, char *ext_at);
 void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
 int		print_col(t_ls *ls, t_list **begin);
+void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode);
 
 #endif
