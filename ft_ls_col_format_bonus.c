@@ -6,13 +6,13 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:47:11 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/26 22:44:17 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:31:41 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
 
-static void	pad_name(t_ls *ls, t_list **begin)
+static void	pad_name_and_add_color(t_ls *ls, t_list **begin)
 {
 	t_list		*tmp;
 	t_fileinfo	*info;
@@ -21,7 +21,6 @@ static void	pad_name(t_ls *ls, t_list **begin)
 	if (!begin || !(*begin))
 		return ;
 	tmp = *begin;
-	ft_bzero(&(ls->pad), sizeof(ls->pad));
 	while (tmp)
 	{
 		name = ft_strlen(((t_fileinfo *)(tmp->content))->name);
@@ -37,6 +36,7 @@ static void	pad_name(t_ls *ls, t_list **begin)
 		name = ft_strlen(info->name);
 		name += (TABSPACE - (name % TABSPACE));
 		info->tab_pad = (((ls->pad.pad_name - name) + TABSPACE) / TABSPACE);
+		handle_colors(info, ls, info->lstat.st_mode);
 		tmp = tmp->next;
 	}
 }
@@ -84,15 +84,15 @@ static int	print_arr(t_ls *ls, t_list **arr, size_t nodes)
 	while (index_nodes++ < nodes)
 	{
 		index_arr = 0;
-		while (copy[index_arr])
+		while (copy[index_arr++])
 		{
-			info = copy[index_arr]->content;
-			if (copy[index_arr + 1])
-				ft_printf("%s%.*s", info->name, info->tab_pad, ls->tab_str);
+			info = copy[index_arr - 1]->content;
+			if (copy[index_arr])
+				ft_printf("%s%s%s%.*s", info->color, info->name, info->end, \
+					info->tab_pad, ls->tab_str);
 			else
-				ft_printf("%s\n", info->name);
-			copy[index_arr] = copy[index_arr]->next;
-			index_arr++;
+				ft_printf("%s%s%s\n", info->color, info->name, info->end);
+			copy[index_arr - 1] = copy[index_arr - 1]->next;
 		}
 	}
 	ft_del_mem((void **)(&copy));
@@ -135,7 +135,9 @@ int	print_col(t_ls *ls, t_list **begin)
 	return_col = ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
 	if (return_col == -1)
 		return (-1);
-	pad_name(ls, begin);
+	if (begin && *begin)
+		ft_bzero(&(ls->pad), sizeof(ls->pad));
+	pad_name_and_add_color(ls, begin);
 	if (ws.ws_col < (2 * ls->pad.pad_name))
 		return (0);
 	col_inf.ammount_col = (ws.ws_col / ls->pad.pad_name);

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/28 16:43:16 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:35:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 
 static void	print_filename(t_fileinfo *info, t_ls *ls)
 {
-	info->color = ls->empty;
-	info->end = ls->empty;
 	handle_colors(info, ls, info->lstat.st_mode);
-	if (ft_strcmp(info->color, ""))
-		info->end = RESET;
 	ft_printf("%s%s%s", info->color, info->name, info->end);
 	if (((ls->flags_info >> LFLAG) & 1) && (S_ISLNK(info->lstat.st_mode)))
 		ft_printf(" -> %s", info->lk);
