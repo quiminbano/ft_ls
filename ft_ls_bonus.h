@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/26 21:46:10 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:27:52 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,24 @@
 # endif
 
 # define SIX_MONTHS 15811200
+
+# ifndef __APPLE__
+#  define SOCKCOL "\033[0;32m"
+#  define EXECCOL "\033[0;31m"
+# else
+#  define SOCKCOL "\033[0;31m"
+#  define EXECCOL "\033[0;32m"
+# endif
+
+# define DIRCOL "\033[0;34m"
+# define SYMCOL "\033[0;35m"
+# define PIPECOL "\033[0;33m"
+# define BLKCOL "\033[46;34m"
+# define CHRCOL "\033[43;34m"
+# define XUIDCOL "\033[41;30m"
+# define XGIDCOL "\033[46;30m"
+# define STKCOL "\033[42;30m"
+# define WSTKCOL "\033[43;30m"
 
 # ifndef TABSPACE
 #  define TABSPACE 8
