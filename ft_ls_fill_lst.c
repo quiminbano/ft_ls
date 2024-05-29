@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/24 13:24:14 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:26:19 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,5 @@ int	check_files_args(t_ls *ls)
 			ft_lstadd_back(&(ls->file), tmp);
 		i++;
 	}
-	sort_input(ls, &(ls->error), 1);
-	sort_input(ls, &(ls->file), 0);
-	sort_input(ls, &(ls->dir), 0);
 	return (0);
 }

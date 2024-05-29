@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/23 16:27:37 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:26:55 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	main(int ac, char **av)
 		return (error_messages(&ls, FLAGSERR));
 	if (check_files_args(&ls) == -1)
 		return (error_messages(&ls, ALLOCERR));
+	sort_input(&ls, &(ls.error), 1);
+	sort_input(&ls, &(ls.file), 0);
+	sort_input(&ls, &(ls.dir), 0);
 	if (print_files_or_error(&(ls.error), &ls, 1, ARGUMENT) == -1)
 		return (error_messages(&ls, ALLOCERR));
 	if (print_files_or_error(&(ls.file), &ls, 0, ARGUMENT) == -1)

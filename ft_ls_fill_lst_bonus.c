@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/24 13:24:48 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:27:21 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ static int	process_one_argument(t_ls *ls, const char *str)
 	tmp = process_argument(ls, str, ARGUMENT);
 	if (!tmp)
 		return (-1);
-	ft_lstadd_back(&(ls->dir), tmp);
+	if (!((ls->flags_info >> DFLAG) & 1))
+		ft_lstadd_back(&(ls->dir), tmp);
+	else
+		ft_lstadd_back(&(ls->file), tmp);
 	return (0);
 }
 
@@ -116,14 +119,12 @@ int	check_files_args(t_ls *ls)
 		if (((t_fileinfo *)tmp->content)->er_st || \
 			((t_fileinfo *)tmp->content)->er_lk)
 			ft_lstadd_back(&(ls->error), tmp);
-		else if (((t_fileinfo *)tmp->content)->is_dir)
+		else if (((t_fileinfo *)tmp->content)->is_dir && \
+			(!((ls->flags_info >> DFLAG) & 1)))
 			ft_lstadd_back(&(ls->dir), tmp);
 		else
 			ft_lstadd_back(&(ls->file), tmp);
 		i++;
 	}
-	sort_input(ls, &(ls->error), 1);
-	sort_input(ls, &(ls->file), 0);
-	sort_input(ls, &(ls->dir), 0);
 	return (0);
 }
