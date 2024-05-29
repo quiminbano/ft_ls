@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/28 16:46:31 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:18:38 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ typedef struct s_ls
 	t_erls			error_c;
 }	t_ls;
 
-void	count_options(t_ls *ls);
+void	count_options(t_ls *ls, int ac, char **av);
 int		valid_flag(t_ls *ls);
 int		check_files_args(t_ls *ls);
 t_list	*process_argument(t_ls *ls, const char *input, t_lstls type);
@@ -186,7 +186,9 @@ void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err);
 void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
 void	print_ext(t_fileinfo *info, char *ext_at);
 void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
-int		print_col(t_ls *ls, t_list **begin);
+int		process_col(t_ls *ls, t_list **begin);
+void	calculate_pad_columns(t_ls *ls, t_list **begin);
+void	print_columns(t_ls *ls, t_list **copy, size_t index_arr);
 void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode);
 
 #endif

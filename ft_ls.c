@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 10:26:55 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:11:35 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ int	main(int ac, char **av)
 	t_ls	ls;
 
 	ft_bzero(&ls, sizeof(ls));
-	ls.ac = ac;
-	ls.av = av;
-	count_options(&ls);
+	count_options(&ls, ac, av);
 	if (ls.starting_point != 1 && valid_flag(&ls) == -1)
 		return (error_messages(&ls, FLAGSERR));
 	if (check_files_args(&ls) == -1)

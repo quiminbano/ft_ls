@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 17:14:19 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:11:06 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct s_ls
 	t_erls			error_c;
 }	t_ls;
 
-void	count_options(t_ls *ls);
+void	count_options(t_ls *ls, int ac, char **av);
 int		valid_flag(t_ls *ls);
 int		check_files_args(t_ls *ls);
 t_list	*process_argument(t_ls *ls, const char *input, t_lstls type);

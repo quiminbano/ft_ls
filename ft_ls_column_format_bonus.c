@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls_col_format_bonus.c                           :+:      :+:    :+:   */
+/*   ft_ls_column_format_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:47:11 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:31:41 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:32:12 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,13 @@ static void	pad_name_and_add_color(t_ls *ls, t_list **begin)
 	tmp = *begin;
 	while (tmp)
 	{
-		name = ft_strlen(((t_fileinfo *)(tmp->content))->name);
+		info = tmp->content;
+		name = ft_strlen(info->name);
 		if (name > ls->pad.pad_name)
 			ls->pad.pad_name = name;
 		tmp = tmp->next;
 	}
-	ls->pad.pad_name += (TABSPACE - (ls->pad.pad_name % TABSPACE));
-	tmp = *begin;
-	while (tmp)
-	{
-		info = (t_fileinfo *)tmp->content;
-		name = ft_strlen(info->name);
-		name += (TABSPACE - (name % TABSPACE));
-		info->tab_pad = (((ls->pad.pad_name - name) + TABSPACE) / TABSPACE);
-		handle_colors(info, ls, info->lstat.st_mode);
-		tmp = tmp->next;
-	}
+	calculate_pad_columns(ls, begin);
 }
 
 static void	populate_array(t_list **begin, t_colformat *col_inf, t_list ***arr)
@@ -73,7 +64,6 @@ static void	populate_array(t_list **begin, t_colformat *col_inf, t_list ***arr)
 static int	print_arr(t_ls *ls, t_list **arr, size_t nodes)
 {
 	t_list		**copy;
-	t_fileinfo	*info;
 	size_t		index_arr;
 	size_t		index_nodes;
 
@@ -81,19 +71,15 @@ static int	print_arr(t_ls *ls, t_list **arr, size_t nodes)
 	if (!copy)
 		return (-1);
 	index_nodes = 0;
-	while (index_nodes++ < nodes)
+	while (index_nodes < nodes)
 	{
 		index_arr = 0;
-		while (copy[index_arr++])
+		while (copy[index_arr])
 		{
-			info = copy[index_arr - 1]->content;
-			if (copy[index_arr])
-				ft_printf("%s%s%s%.*s", info->color, info->name, info->end, \
-					info->tab_pad, ls->tab_str);
-			else
-				ft_printf("%s%s%s\n", info->color, info->name, info->end);
-			copy[index_arr - 1] = copy[index_arr - 1]->next;
+			print_columns(ls, copy, index_arr);
+			index_arr++;
 		}
+		index_nodes++;
 	}
 	ft_del_mem((void **)(&copy));
 	return (0);
@@ -124,7 +110,7 @@ static int	div_lst_and_print(t_ls *ls, t_list **begin, t_colformat *col_inf)
 	return (return_func);
 }
 
-int	print_col(t_ls *ls, t_list **begin)
+int	process_col(t_ls *ls, t_list **begin)
 {
 	struct winsize	ws;
 	int				return_col;
@@ -132,11 +118,12 @@ int	print_col(t_ls *ls, t_list **begin)
 
 	if (!((ls->flags_info >> COLFORM) & 1))
 		return (0);
+	if (!begin || !(*begin))
+		return (0);
 	return_col = ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
 	if (return_col == -1)
-		return (-1);
-	if (begin && *begin)
-		ft_bzero(&(ls->pad), sizeof(ls->pad));
+		return (-1);	
+	ft_bzero(&(ls->pad), sizeof(ls->pad));
 	pad_name_and_add_color(ls, begin);
 	if (ws.ws_col < (2 * ls->pad.pad_name))
 		return (0);

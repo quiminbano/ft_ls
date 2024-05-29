@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/26 20:33:12 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:04:01 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	process_folder(t_fileinfo *info, t_ls *ls)
 	sort_input(ls, &(col.files), 0);
 	sort_input(ls, &(col.dir), 0);
 	closedir(tmpdir);
-	if (print_col(ls, &(col.files)) == -1 || \
+	if (process_col(ls, &(col.files)) == -1 || \
 		print_files_or_error(&(col.files), ls, 0, DIRECTORY) == -1)
 		return_dir = -1;
 	if (print_folder(&(col.dir), ls, 1))

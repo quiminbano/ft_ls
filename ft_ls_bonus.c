@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 10:25:34 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:23:57 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	main(int ac, char **av)
 
 	ft_bzero(&ls, sizeof(ls));
 	ft_memset(ls.tab_str, '\t', 4095);
-	ls.ac = ac;
-	ls.av = av;
-	count_options(&ls);
+	count_options(&ls, ac, av);
 	if (ls.starting_point != 1 && valid_flag(&ls) == -1)
 		return (error_messages(&ls, FLAGSERR));
 	if (!ls.flags_info && isatty(STDOUT_FILENO))
@@ -45,7 +43,8 @@ int	main(int ac, char **av)
 	sort_input(&ls, &(ls.dir), 0);
 	if (print_files_or_error(&(ls.error), &ls, 1, ARGUMENT) == -1)
 		return (error_messages(&ls, ALLOCERR));
-	if (print_files_or_error(&(ls.file), &ls, 0, ARGUMENT) == -1)
+	if (process_col(&ls, &(ls.file)) == -1 || \
+		print_files_or_error(&(ls.file), &ls, 0, ARGUMENT) == -1)
 		return (error_messages(&ls, ALLOCERR));
 	ls.size_file_lst = ft_lstsize(ls.file);
 	if (print_folder(&(ls.dir), &ls, 0) == -1)

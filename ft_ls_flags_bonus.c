@@ -6,17 +6,19 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/23 21:55:30 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:09:34 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
 
-void	count_options(t_ls *ls)
+void	count_options(t_ls *ls, int ac, char **av)
 {
 	size_t	i;
 
 	i = 1;
+	ls->ac = ac;
+	ls->av = av;
 	ls->starting_point = i;
 	if (ls->ac == 1)
 		return ;
