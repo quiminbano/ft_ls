@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:47:11 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 14:32:12 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:39:06 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	process_col(t_ls *ls, t_list **begin)
 		return (0);
 	return_col = ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
 	if (return_col == -1)
-		return (-1);	
+		return (-1);
 	ft_bzero(&(ls->pad), sizeof(ls->pad));
 	pad_name_and_add_color(ls, begin);
 	if (ws.ws_col < (2 * ls->pad.pad_name))

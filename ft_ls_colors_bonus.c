@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:01:19 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 14:30:34 by corellan         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:02:19 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,17 @@ static void	set_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 		info->color = EXECCOL;
 }
 
+void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
+{
+	info->color = ls->empty;
+	info->end = ls->empty;
+	set_colors(info, ls, mode);
+	if (ft_strcmp(info->color, ""))
+		info->end = RESET;
+}
 #else
 
-static void	set_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
+static void	set_colors(t_fileinfo *info, mode_t mode)
 {
 	if (S_ISDIR(mode) && (S_IWOTH & mode) && (S_ISVTX & mode))
 		info->color = STKCOL;
@@ -54,7 +62,7 @@ static void	set_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 		info->color = DIRCOL;
 	else if (S_ISLNK(mode))
 		info->color = SYMCOL;
-	else if (S_ISSOCK(mode))
+	else if (__S_ISTYPE(mode, __S_IFSOCK))
 		info->color = SOCKCOL;
 	else if (S_ISFIFO(mode))
 		info->color = PIPECOL;
@@ -69,13 +77,14 @@ static void	set_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 	else if ((S_IXUSR & mode) || (S_IXGRP & mode) || (S_IXOTH & mode))
 		info->color = EXECCOL;
 }
-#endif
 
 void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 {
 	info->color = ls->empty;
 	info->end = ls->empty;
-	set_colors(info, ls, mode);
+	set_colors(info, mode);
 	if (ft_strcmp(info->color, ""))
 		info->end = RESET;
 }
+
+#endif
