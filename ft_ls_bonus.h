@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/30 15:31:53 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/01 01:32:26 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@
 # include <time.h>
 # include <errno.h>
 # include <sys/ioctl.h>
-# include <sys/acl.h>
 
 # ifdef __linux__
 #  include <sys/sysmacros.h>
 #  include <linux/limits.h>
 #  define S_ISVTX __S_ISVTX
+# else
+#  include <sys/acl.h>
 # endif
 
 # define SIX_MONTHS 15811200
@@ -188,6 +189,7 @@ void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err);
 void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
 void	print_ext(t_fileinfo *info, char *ext_at);
 void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
+void	print_acl(int *ret_err, char **acl_at);
 int		process_col(t_ls *ls, t_list **begin);
 void	calculate_pad_columns(t_ls *ls, t_list **begin);
 void	print_columns(t_ls *ls, t_list **copy, size_t index_arr);

@@ -6,7 +6,7 @@
 #    By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 12:46:54 by corellan          #+#    #+#              #
-#    Updated: 2024/05/30 15:47:48 by corellan         ###   ########.fr        #
+#    Updated: 2024/06/01 01:19:35 by corellan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ bonus: .bonus
 
 .bonus: $(OBJ_B)
 		$(MAKE) bonus -C ./libft
-		$(CC) $(FLAGS) -I. $(OBJ_B) -lacl $(LIBFT) -o $(NAME)
+		$(CC) $(FLAGS) -I. $(OBJ_B) $(LIBFT) -o $(NAME)
 		@touch .bonus
 
 %.o: %.c
