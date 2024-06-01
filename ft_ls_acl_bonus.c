@@ -6,11 +6,13 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 16:31:43 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/01 01:29:36 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:40:07 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
+
+#ifdef __APPLE__
 
 static char	**split_acl(char *acl_at)
 {
@@ -74,3 +76,47 @@ void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at)
 		return ;
 	}
 }
+#else
+
+void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at)
+{
+	if (info->acl_size <= 0)
+		return ;
+	if (!info->ext_size)
+		return ;
+	(*acl_at) = ft_calloc((info->ext_size + 1), sizeof(char));
+	if (!(*acl_at))
+	{
+		(*ret_err) = -1;
+		return ;
+	}
+	if (info->rel_path && \
+		listxattr(info->rel_path, (*acl_at), (size_t)info->acl_size) > 0)
+		return ;
+	else if (listxattr(info->name, (*acl_at), (size_t)info->acl_size) > 0)
+		return ;
+	ft_del_mem((void **)acl_at);
+}
+
+void	print_acl(t_fileinfo *info, char *acl_at)
+{
+	ssize_t	return_bytes;
+	size_t	index;
+	char	*path;
+	char	*name;
+
+	index = 0;
+	path = info->name;
+	if (info->rel_path)
+		path = info->rel_path;
+	name = acl_at;
+	while (index < info->ext_size)
+	{
+		return_bytes = getxattr(path, name, NULL, 0);
+		ft_printf("\t%s\t%*d\n", name, \
+			(ft_numlength_base(return_bytes, 10) + 7), (int)return_bytes);
+		index = (ft_strlen(name) + 1);
+		name += index;
+	}
+}
+#endif

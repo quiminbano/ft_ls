@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/16 11:50:57 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/01 10:34:55 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static void	store_perm(t_fileinfo *info, t_ls *ls, size_t i)
 		ls->perm[i] = '-';
 }
 
+#ifdef __APPLE__
+
 void	store_attributes(t_fileinfo *info, t_ls *ls)
 {
 	size_t	i;
@@ -62,3 +64,29 @@ void	store_attributes(t_fileinfo *info, t_ls *ls)
 		store_perm(info, ls, i);
 	ls->perm[i] = ' ';
 }
+#else
+
+void	store_attributes(t_fileinfo *info, t_ls *ls)
+{
+	size_t	i;
+
+	i = 0;
+	if (S_ISBLK(info->lstat.st_mode))
+		ls->perm[0] = 'b';
+	else if (S_ISCHR(info->lstat.st_mode))
+		ls->perm[0] = 'c';
+	else if (S_ISDIR(info->lstat.st_mode))
+		ls->perm[0] = 'd';
+	else if (S_ISLNK(info->lstat.st_mode))
+		ls->perm[0] = 'l';
+	else if (__S_ISTYPE(info->lstat.st_mode, __S_IFSOCK))
+		ls->perm[0] = 's';
+	else if (S_ISFIFO(info->lstat.st_mode))
+		ls->perm[0] = 'p';
+	else
+		ls->perm[0] = '-';
+	while (++i < 10)
+		store_perm(info, ls, i);
+	ls->perm[i] = ' ';
+}
+#endif

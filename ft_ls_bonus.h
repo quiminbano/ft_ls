@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/01 01:32:26 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:45:18 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ typedef struct s_colformat
 	size_t	lst_size;
 }	t_colformat;
 
+# ifdef __APPLE__
+
 typedef struct s_fileinfo
 {
 	acl_t			acl;
@@ -122,6 +124,31 @@ typedef struct s_fileinfo
 	ssize_t			acl_size;
 	int				acl_usage;
 }	t_fileinfo;
+# else
+
+typedef struct s_fileinfo
+{
+	char			*name;
+	char			*rel_path;
+	char			*time;
+	char			*file_size;
+	char			*color;
+	char			*end;
+	char			lk[PATH_MAX];
+	int				er_st;
+	int				er_lk;
+	int				er_dr;
+	int				is_dir;
+	struct stat		stat;
+	struct stat		lstat;
+	struct passwd	*pw;
+	struct group	*gr;
+	size_t			ext_size;
+	size_t			tab_pad;
+	ssize_t			acl_size;
+	int				acl_usage;
+}	t_fileinfo;
+# endif
 
 typedef struct s_dircol
 {
@@ -189,10 +216,15 @@ void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err);
 void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
 void	print_ext(t_fileinfo *info, char *ext_at);
 void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
-void	print_acl(int *ret_err, char **acl_at);
 int		process_col(t_ls *ls, t_list **begin);
 void	calculate_pad_columns(t_ls *ls, t_list **begin);
 void	print_columns(t_ls *ls, t_list **copy, size_t index_arr);
 void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode);
+# ifdef __APPLE__
 
+void	print_acl(int *ret_err, char **acl_at);
+# else
+
+void	print_acl(t_fileinfo *info, char *acl_at);
+# endif
 #endif

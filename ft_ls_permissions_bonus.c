@@ -6,61 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/30 15:57:55 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/02 00:28:55 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
-
-#ifdef __APPLE__
-
-static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
-{
-	char	*path;
-
-	path = info->rel_path;
-	if (!path)
-		path = info->name;
-	info->acl = NULL;
-	info->acl = acl_get_file(path, ACL_TYPE_EXTENDED);
-	if (listxattr(path, NULL, 0, 0) > 0)
-	{
-		ls->perm[i] = '@';
-		info->ext_size = listxattr(path, NULL, 0, 0);
-	}
-	else if (info->acl)
-	{
-		ls->perm[i] = '+';
-		info->acl_usage = 1;
-	}
-	else
-		ls->perm[i] = ' ';
-}
-#else
-
-static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
-{
-	char	*path;
-
-	path = info->rel_path;
-	if (!path)
-		path = info->name;
-	info->acl = NULL;
-	info->acl = acl_get_file(path, ACL_TYPE_ACCESS);
-	if (listxattr(path, NULL, 0) > 0)
-	{
-		ls->perm[i] = '@';
-		info->ext_size = listxattr(path, NULL, 0);
-	}
-	else if (info->acl)
-	{
-		ls->perm[i] = '+';
-		info->acl_usage = 1;
-	}
-	else
-		ls->perm[i] = ' ';
-}
-#endif
 
 static void	store_perm(t_fileinfo *info, t_ls *ls, size_t i)
 {
@@ -89,6 +39,31 @@ static void	store_perm(t_fileinfo *info, t_ls *ls, size_t i)
 		ls->perm[i] = '-';
 }
 
+#ifdef __APPLE__
+
+static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
+{
+	char	*path;
+
+	path = info->rel_path;
+	if (!path)
+		path = info->name;
+	info->acl = NULL;
+	info->acl = acl_get_file(path, ACL_TYPE_EXTENDED);
+	if (listxattr(path, NULL, 0, 0) > 0)
+	{
+		ls->perm[i] = '@';
+		info->ext_size = listxattr(path, NULL, 0, 0);
+	}
+	else if (info->acl)
+	{
+		ls->perm[i] = '+';
+		info->acl_usage = 1;
+	}
+	else
+		ls->perm[i] = ' ';
+}
+
 void	store_attributes(t_fileinfo *info, t_ls *ls)
 {
 	size_t	i;
@@ -112,3 +87,50 @@ void	store_attributes(t_fileinfo *info, t_ls *ls)
 		store_perm(info, ls, i);
 	perm_ext_acl(info, ls, i);
 }
+#else
+
+static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
+{
+	char	*path;
+
+	path = info->rel_path;
+	if (!path)
+		path = info->name;
+	if (getxattr(path, "system.acl", NULL, 0) > 0)
+	{
+		ls->perm[i] = '+';
+		info->acl_size = getxattr(path, "system.acl", NULL, 0);
+	}
+	else if (listxattr(path, NULL, 0) > 0)
+	{
+		ls->perm[i] = '@';
+		info->ext_size = listxattr(path, NULL, 0);
+	}
+	else
+		ls->perm[i] = ' ';
+}
+
+void	store_attributes(t_fileinfo *info, t_ls *ls)
+{
+	size_t	i;
+
+	i = 0;
+	if (S_ISBLK(info->lstat.st_mode))
+		ls->perm[0] = 'b';
+	else if (S_ISCHR(info->lstat.st_mode))
+		ls->perm[0] = 'c';
+	else if (S_ISDIR(info->lstat.st_mode))
+		ls->perm[0] = 'd';
+	else if (S_ISLNK(info->lstat.st_mode))
+		ls->perm[0] = 'l';
+	else if (__S_ISTYPE(info->lstat.st_mode, __S_IFSOCK))
+		ls->perm[0] = 's';
+	else if (S_ISFIFO(info->lstat.st_mode))
+		ls->perm[0] = 'p';
+	else
+		ls->perm[0] = '-';
+	while (++i < 10)
+		store_perm(info, ls, i);
+	perm_ext_acl(info, ls, i);
+}
+#endif
