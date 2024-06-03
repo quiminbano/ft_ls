@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/28 18:35:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:11:26 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
 		if (info->gr && !((ls->flags_info >> GEEFLAG) & 1))
 			ft_printf("%-*s  ", ls->pad.pad_gr, info->gr->gr_name);
 		else if (!((ls->flags_info >> GEEFLAG) & 1))
-			ft_printf("%-*s  ", ls->pad.pad_gr, info->gr->gr_name);
-		else
 			ft_printf("%-*u  ", ls->pad.pad_gr, info->lstat.st_gid);
 		check_special_files(info, ls);
 		ft_printf("%s ", info->time);

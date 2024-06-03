@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:42:38 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 15:49:36 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:32:10 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	calculate_pad_columns(t_ls *ls, t_list **begin)
 	while (tmp)
 	{
 		info = tmp->content;
-		ls->pad.pad_name += (TABSPACE - (ls->pad.pad_name % TABSPACE));
 		name = ft_strlen(info->name);
 		name += (TABSPACE - (name % TABSPACE));
 		info->tab_pad = (((ls->pad.pad_name - name) + TABSPACE) / TABSPACE);
