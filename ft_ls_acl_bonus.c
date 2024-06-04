@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 16:31:43 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/02 00:40:07 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:21:36 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at)
 {
 	if (info->acl_size <= 0)
 		return ;
-	if (!info->ext_size)
-		return ;
-	(*acl_at) = ft_calloc((info->ext_size + 1), sizeof(char));
+	(*acl_at) = ft_calloc((info->acl_size + 1), sizeof(char));
 	if (!(*acl_at))
 	{
 		(*ret_err) = -1;
@@ -102,21 +100,26 @@ void	print_acl(t_fileinfo *info, char *acl_at)
 {
 	ssize_t	return_bytes;
 	size_t	index;
+	size_t	length;
 	char	*path;
 	char	*name;
 
 	index = 0;
+	length = 0;
 	path = info->name;
 	if (info->rel_path)
 		path = info->rel_path;
 	name = acl_at;
-	while (index < info->ext_size)
+	while (index < (size_t)info->acl_size)
 	{
 		return_bytes = getxattr(path, name, NULL, 0);
+		if (return_bytes == -1)
+			return ;
 		ft_printf("\t%s\t%*d\n", name, \
 			(ft_numlength_base(return_bytes, 10) + 7), (int)return_bytes);
 		index = (ft_strlen(name) + 1);
 		name += index;
+		index += length;
 	}
 }
 #endif

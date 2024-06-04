@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 16:29:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 18:18:23 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:20:44 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ void	print_ext(t_fileinfo *info, char *ext_at)
 {
 	ssize_t	return_bytes;
 	size_t	index;
+	size_t	length;
 	char	*path;
 	char	*name;
 
 	index = 0;
+	length = 0;
 	path = info->name;
 	if (info->rel_path)
 		path = info->rel_path;
@@ -70,10 +72,13 @@ void	print_ext(t_fileinfo *info, char *ext_at)
 	while (index < info->ext_size)
 	{
 		return_bytes = getxattr(path, name, NULL, 0);
+		if (return_bytes == -1)
+			return ;
 		ft_printf("\t%s\t%*d\n", name, \
 			(ft_numlength_base(return_bytes, 10) + 7), (int)return_bytes);
-		index = (ft_strlen(name) + 1);
-		name += index;
+		length = (ft_strlen(name) + 1);
+		name += length;
+		index += length;
 	}
 }
 

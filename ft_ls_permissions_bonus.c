@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/02 00:28:55 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:14:09 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
 	path = info->rel_path;
 	if (!path)
 		path = info->name;
-	if (getxattr(path, "system.acl", NULL, 0) > 0)
+	if (getxattr(path, "system.posix_acl_access", NULL, 0) > 0)
 	{
 		ls->perm[i] = '+';
-		info->acl_size = getxattr(path, "system.acl", NULL, 0);
+		info->acl_size = getxattr(path, "system.posix_acl_access", NULL, 0);
 	}
 	else if (listxattr(path, NULL, 0) > 0)
 	{
