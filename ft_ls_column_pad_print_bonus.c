@@ -6,13 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:42:38 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/03 17:32:10 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:47:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
-
-#ifdef __APPLE__
 
 void	calculate_pad_columns(t_ls *ls, t_list **begin)
 {
@@ -59,40 +57,3 @@ void	print_columns(t_ls *ls, t_list **copy, size_t index_arr)
 		ft_printf("%s%s%s\n", info->color, info->name, info->end);
 	copy[index_arr] = copy[index_arr]->next;
 }
-
-#else
-
-void	calculate_pad_columns(t_ls *ls, t_list **begin)
-{
-	size_t		name;
-	t_list		*tmp;
-	t_fileinfo	*info;
-
-	if (!begin || !(*begin))
-		return ;
-	tmp = *begin;
-	ls->pad.pad_name += (TABSPACE - (ls->pad.pad_name % TABSPACE));
-	while (tmp)
-	{
-		info = tmp->content;
-		name = ft_strlen(info->name);
-		name += (TABSPACE - (name % TABSPACE));
-		info->tab_pad = (((ls->pad.pad_name - name) + TABSPACE) / TABSPACE);
-		handle_colors(info, ls, info->lstat.st_mode);
-		tmp = tmp->next;
-	}
-}
-
-void	print_columns(t_ls *ls, t_list **copy, size_t index_arr)
-{
-	t_fileinfo	*info;
-
-	info = copy[index_arr]->content;
-	if (copy[index_arr + 1])
-		ft_printf("%s%s%s%.*s", info->color, info->name, info->end, \
-			info->tab_pad, ls->tab_str);
-	else
-		ft_printf("%s%s%s\n", info->color, info->name, info->end);
-	copy[index_arr] = copy[index_arr]->next;
-}
-#endif

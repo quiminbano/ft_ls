@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/02 00:45:18 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:49:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,8 @@
 
 # define SIX_MONTHS 15811200
 
-# ifndef __APPLE__
-#  define SOCKCOL "\033[0;31m"
-#  define EXECCOL "\033[0;32m"
-# else
-#  define SOCKCOL "\033[0;32m"
-#  define EXECCOL "\033[0;31m"
-# endif
-
+# define SOCKCOL "\033[0;32m"
+# define EXECCOL "\033[0;31m"
 # define DIRCOL "\033[0;34m"
 # define SYMCOL "\033[0;35m"
 # define PIPECOL "\033[0;33m"

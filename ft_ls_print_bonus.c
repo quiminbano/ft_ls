@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/03 17:11:26 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:41:11 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static void	print_filename(t_fileinfo *info, t_ls *ls)
 		ft_printf(" -> %s", info->lk);
 	ft_printf("\n");
 }
-
-#ifdef __APPLE__
 
 static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
 {
@@ -47,33 +45,6 @@ static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
 	if (((ls->flags_info >> EFLAG) & 1) || ((ls->flags_info >> ATFLAG) & 1))
 		print_ext_acl(info, ls, ret_err);
 }
-#else
-
-static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
-{
-	ft_bzero(ls->perm, sizeof(ls->perm));
-	if (((ls->flags_info >> LFLAG) & 1))
-	{
-		info->pw = getpwuid(info->lstat.st_uid);
-		info->gr = getgrgid(info->lstat.st_gid);
-		store_attributes(info, ls);
-		ft_printf("%s %*d ", ls->perm, ls->pad.pad_hl, info->lstat.st_nlink);
-		if (info->pw && !((ls->flags_info >> GFLAG) & 1))
-			ft_printf("%-*s  ", ls->pad.pad_pw, info->pw->pw_name);
-		else if (!((ls->flags_info >> GFLAG) & 1))
-			ft_printf("%-*u  ", ls->pad.pad_pw, info->lstat.st_uid);
-		if (info->gr && !((ls->flags_info >> GEEFLAG) & 1))
-			ft_printf("%-*s  ", ls->pad.pad_gr, info->gr->gr_name);
-		else if (!((ls->flags_info >> GEEFLAG) & 1))
-			ft_printf("%-*u  ", ls->pad.pad_gr, info->lstat.st_gid);
-		check_special_files(info, ls);
-		ft_printf("%s ", info->time);
-	}
-	print_filename(info, ls);
-	if (((ls->flags_info >> EFLAG) & 1) || ((ls->flags_info >> ATFLAG) & 1))
-		print_ext_acl(info, ls, ret_err);
-}
-#endif
 
 static int	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 {

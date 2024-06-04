@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:01:19 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/30 16:02:19 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:58:44 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,12 @@ static void	set_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 	else if ((S_IXUSR & mode) || (S_IXGRP & mode) || (S_IXOTH & mode))
 		info->color = EXECCOL;
 }
-
-void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
-{
-	info->color = ls->empty;
-	info->end = ls->empty;
-	set_colors(info, ls, mode);
-	if (ft_strcmp(info->color, ""))
-		info->end = RESET;
-}
 #else
 
-static void	set_colors(t_fileinfo *info, mode_t mode)
+static void	set_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 {
+	if (!((ls->flags_info >> GEEFLAG) & 1) || !isatty(STDOUT_FILENO))
+		return ;
 	if (S_ISDIR(mode) && (S_IWOTH & mode) && (S_ISVTX & mode))
 		info->color = STKCOL;
 	else if (S_ISDIR(mode) && (S_IWOTH & mode) && !(S_ISVTX & mode))
@@ -77,14 +70,13 @@ static void	set_colors(t_fileinfo *info, mode_t mode)
 	else if ((S_IXUSR & mode) || (S_IXGRP & mode) || (S_IXOTH & mode))
 		info->color = EXECCOL;
 }
+#endif
 
 void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 {
 	info->color = ls->empty;
 	info->end = ls->empty;
-	set_colors(info, mode);
+	set_colors(info, ls, mode);
 	if (ft_strcmp(info->color, ""))
 		info->end = RESET;
 }
-
-#endif
