@@ -6,13 +6,13 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:01:19 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/04 11:58:44 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:01:37 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
 
-#ifdef __APPLE__
+#ifdef S_ISSOCK
 
 static void	set_colors(t_fileinfo *info, t_ls *ls, mode_t mode)
 {
