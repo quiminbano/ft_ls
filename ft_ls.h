@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/06 13:40:14 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:19:43 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 # endif
 
 # define SIX_MONTHS 15811200
+
+# ifdef __APPLE__
+#  define BLOCKDIV 1
+# else
+#  define BLOCKDIV 2
+# endif
 
 typedef enum e_erls
 {

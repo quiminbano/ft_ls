@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/06 13:39:46 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:20:51 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@
 # endif
 
 # define SIX_MONTHS 15811200
+
+# ifdef __APPLE__
+#  define BLOCKDIV 1
+# else
+#  define BLOCKDIV 2
+# endif
 
 # define SOCKCOL "\033[0;32m"
 # define EXECCOL "\033[0;31m"

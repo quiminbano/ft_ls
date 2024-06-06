@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/06 21:12:40 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:21:45 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
 			if (get_time_string(info) == -1)
 				return (-1);
 			padding_file_size(info, ls);
-			ls->total_blocks += info->lstat.st_blocks;
+			ls->total_blocks += (info->lstat.st_blocks / BLOCKDIV);
 		}
 		tmp = tmp->next;
 	}
