@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/06 12:27:01 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:39:46 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 # ifdef __linux__
 #  include <sys/sysmacros.h>
 #  include <linux/limits.h>
-#  define S_ISVTX __S_ISVTX
+#  ifndef S_ISVTX
+#   define S_ISVTX __S_ISVTX
+#  endif
 # else
 #  include <sys/acl.h>
 # endif

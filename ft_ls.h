@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/01 10:21:52 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:40:14 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 # ifdef __linux__
 #  include <sys/sysmacros.h>
 #  include <linux/limits.h>
-#  define S_ISVTX __S_ISVTX
+#  ifndef S_ISVTX
+#   define S_ISVTX __S_ISVTX
+#  endif
 # endif
 
 # define SIX_MONTHS 15811200
