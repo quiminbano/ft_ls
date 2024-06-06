@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 16:29:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/04 18:20:44 by corellan         ###   ########.fr       */
+/*   Created: 2024/05/16 16:18:05 by corellan          #+#    #+#             */
+/*   Updated: 2024/06/06 12:27:35 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #ifdef __APPLE__
 
-void	print_ext(t_fileinfo *info, char *ext_at)
+static void	print_ext(t_fileinfo *info, char *ext_at)
 {
 	ssize_t	return_bytes;
 	size_t	index;
@@ -36,7 +36,7 @@ void	print_ext(t_fileinfo *info, char *ext_at)
 	}
 }
 
-void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at)
+static void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at)
 {
 	if (!info->ext_size)
 		return ;
@@ -55,7 +55,7 @@ void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at)
 }
 #else
 
-void	print_ext(t_fileinfo *info, char *ext_at)
+static void	print_ext(t_fileinfo *info, char *ext_at)
 {
 	ssize_t	return_bytes;
 	size_t	index;
@@ -82,7 +82,7 @@ void	print_ext(t_fileinfo *info, char *ext_at)
 	}
 }
 
-void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at)
+static void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at)
 {
 	if (!info->ext_size)
 		return ;
@@ -100,3 +100,17 @@ void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at)
 	ft_del_mem((void **)ext_at);
 }
 #endif
+
+void	print_ext_attr(t_fileinfo *info, t_ls *ls, int *ret_err)
+{
+	char	*ext_at;
+
+	ext_at = NULL;
+	if (((ls->flags_info >> ATFLAG) & 1))
+		process_ext(info, ret_err, &ext_at);
+	if ((*ret_err) == -1)
+		return ;
+	if (ext_at)
+		print_ext(info, ext_at);
+	ft_del_mem((void **)(&ext_at));
+}

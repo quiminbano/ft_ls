@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 11:16:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/03 18:06:12 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:21:05 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ static void	fill_flags(char flag, t_ls *ls)
 		ls->flags_info |= (1 << AFLAG);
 	else if (flag == 'd')
 		ls->flags_info |= (1 << DFLAG);
-	else if (flag == 'e')
-		ls->flags_info |= (1 << EFLAG);
 	else if (flag == 'f')
 	{
 		ls->flags_info |= (1 << AFLAG);
@@ -83,7 +81,7 @@ static void	fill_flags(char flag, t_ls *ls)
 
 static int	iterate_flags(const char *str, t_ls *ls)
 {
-	const char	*flags = "GRadefglrtu@1";
+	const char	*flags = "GRadfglrtu@1";
 	size_t		i;
 	size_t		j;
 

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/04 11:41:11 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:23:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
 		ft_printf("%s ", info->time);
 	}
 	print_filename(info, ls);
-	if (((ls->flags_info >> EFLAG) & 1) || ((ls->flags_info >> ATFLAG) & 1))
-		print_ext_acl(info, ls, ret_err);
+	if (((ls->flags_info >> ATFLAG) & 1))
+		print_ext_attr(info, ls, ret_err);
 }
 
 static int	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)

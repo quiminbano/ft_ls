@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/04 11:49:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:27:01 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,19 +206,10 @@ int		loop_dir(t_fileinfo *info, t_ls *ls, t_dircol *col, DIR **tmpdir);
 void	check_special_files(t_fileinfo *info, t_ls *ls);
 void	padding_file_size(t_fileinfo *info, t_ls *ls);
 void	process_link(t_fileinfo **info, t_lstls type, t_ls *ls);
-void	print_ext_acl(t_fileinfo *info, t_ls *ls, int *ret_err);
-void	process_ext(t_fileinfo *info, int *ret_err, char **ext_at);
-void	print_ext(t_fileinfo *info, char *ext_at);
-void	process_acl(t_fileinfo *info, int *ret_err, char **acl_at);
+void	print_ext_attr(t_fileinfo *info, t_ls *ls, int *ret_err);
 int		process_col(t_ls *ls, t_list **begin);
 void	calculate_pad_columns(t_ls *ls, t_list **begin);
 void	print_columns(t_ls *ls, t_list **copy, size_t index_arr);
 void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode);
-# ifdef __APPLE__
 
-void	print_acl(int *ret_err, char **acl_at);
-# else
-
-void	print_acl(t_fileinfo *info, char *acl_at);
-# endif
 #endif
