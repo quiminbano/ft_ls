@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/01 10:34:55 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:54:21 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	store_perm(t_fileinfo *info, t_ls *ls, size_t i)
 		ls->perm[i] = '-';
 }
 
-#ifdef __APPLE__
+#ifdef S_ISSOCK
 
 void	store_attributes(t_fileinfo *info, t_ls *ls)
 {

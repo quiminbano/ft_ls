@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 22:43:14 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/04 13:14:09 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:53:05 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,31 @@ static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
 	else
 		ls->perm[i] = ' ';
 }
+#else
+
+static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
+{
+	char	*path;
+
+	path = info->rel_path;
+	if (!path)
+		path = info->name;
+	if (getxattr(path, "system.posix_acl_access", NULL, 0) > 0)
+	{
+		ls->perm[i] = '+';
+		info->acl_size = getxattr(path, "system.posix_acl_access", NULL, 0);
+	}
+	else if (listxattr(path, NULL, 0) > 0)
+	{
+		ls->perm[i] = '@';
+		info->ext_size = listxattr(path, NULL, 0);
+	}
+	else
+		ls->perm[i] = ' ';
+}
+#endif
+
+#ifdef S_ISSOCK
 
 void	store_attributes(t_fileinfo *info, t_ls *ls)
 {
@@ -88,27 +113,6 @@ void	store_attributes(t_fileinfo *info, t_ls *ls)
 	perm_ext_acl(info, ls, i);
 }
 #else
-
-static void	perm_ext_acl(t_fileinfo *info, t_ls *ls, size_t i)
-{
-	char	*path;
-
-	path = info->rel_path;
-	if (!path)
-		path = info->name;
-	if (getxattr(path, "system.posix_acl_access", NULL, 0) > 0)
-	{
-		ls->perm[i] = '+';
-		info->acl_size = getxattr(path, "system.posix_acl_access", NULL, 0);
-	}
-	else if (listxattr(path, NULL, 0) > 0)
-	{
-		ls->perm[i] = '@';
-		info->ext_size = listxattr(path, NULL, 0);
-	}
-	else
-		ls->perm[i] = ' ';
-}
 
 void	store_attributes(t_fileinfo *info, t_ls *ls)
 {
