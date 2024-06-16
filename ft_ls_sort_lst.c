@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:18:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/14 08:17:19 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:24:56 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 
 static int	make_comparisions(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
 {
-	unsigned int	reverse;
-	unsigned int	time;
+	const unsigned int	reverse = ((bk >> RFLAG) & 1);
+	const unsigned int	time = ((bk >> TFLAG) & 1);
 
-	reverse = ((bk >> RFLAG) & 1);
-	time = ((bk >> TFLAG) & 1);
 	if (!time && !reverse && ft_strcmp(inf->name, nxt->name) >= 1)
 		return (1);
 	else if (!time && reverse && ft_strcmp(inf->name, nxt->name) <= -1)
+		return (1);
+	else if (time && !reverse && inf->lstat.st_mtime == nxt->lstat.st_mtime && \
+		ft_strcmp(inf->name, nxt->name) <= -1)
+		return (1);
+	else if (time && reverse && inf->lstat.st_mtime == nxt->lstat.st_mtime && \
+		ft_strcmp(inf->name, nxt->name) >= 1)
 		return (1);
 	else if (time && !reverse && inf->lstat.st_mtime < nxt->lstat.st_mtime)
 		return (1);

@@ -6,24 +6,46 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:18:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/22 17:37:44 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/17 00:34:44 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
 
+static int	comp_la(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
+{
+	const unsigned int	reverse = ((bk >> RFLAG) & 1);
+
+	if (!reverse && inf->lstat.st_atime == nxt->lstat.st_atime && \
+		ft_strcmp(inf->name, nxt->name) <= -1)
+		return (1);
+	else if (reverse && inf->lstat.st_atime == nxt->lstat.st_atime && \
+		ft_strcmp(inf->name, nxt->name) >= 1)
+		return (1);
+	else if (!reverse && inf->lstat.st_atime < nxt->lstat.st_atime)
+		return (1);
+	else if (reverse && inf->lstat.st_atime > nxt->lstat.st_atime)
+		return (1);
+	return (0);
+}
+
 static int	make_comparisions(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
 {
-	unsigned int	reverse;
-	unsigned int	time;
-	unsigned int	last_access;
+	const unsigned int	reverse = ((bk >> RFLAG) & 1);
+	const unsigned int	time = ((bk >> TFLAG) & 1);
+	const unsigned int	last_access = ((bk >> UFLAG) & 1);
 
-	reverse = ((bk >> RFLAG) & 1);
-	time = ((bk >> TFLAG) & 1);
-	last_access = ((bk >> UFLAG) & 1);
 	if (!time && !reverse && ft_strcmp(inf->name, nxt->name) >= 1)
 		return (1);
 	else if (!time && reverse && ft_strcmp(inf->name, nxt->name) <= -1)
+		return (1);
+	else if (time && !last_access && !reverse && \
+		inf->lstat.st_mtime == nxt->lstat.st_mtime && \
+		ft_strcmp(inf->name, nxt->name) <= -1)
+		return (1);
+	else if (time && !last_access && reverse && \
+		inf->lstat.st_mtime == nxt->lstat.st_mtime && \
+		ft_strcmp(inf->name, nxt->name) >= 1)
 		return (1);
 	else if (time && !last_access && !reverse && \
 		inf->lstat.st_mtime < nxt->lstat.st_mtime)
@@ -31,12 +53,8 @@ static int	make_comparisions(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
 	else if (time && !last_access && reverse && \
 		inf->lstat.st_mtime > nxt->lstat.st_mtime)
 		return (1);
-	else if (time && last_access && !reverse && \
-		inf->lstat.st_atime < nxt->lstat.st_atime)
-		return (1);
-	else if (time && last_access && reverse && \
-		inf->lstat.st_atime > nxt->lstat.st_atime)
-		return (1);
+	else if (time && last_access)
+		return (comp_la(inf, nxt, bk));
 	return (0);
 }
 
