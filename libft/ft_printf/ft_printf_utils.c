@@ -6,20 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:42:13 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:37:30 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:15:17 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "../libft.h"
-
-static char	*handle_return(char **s1, char *returned)
-{
-	if ((*s1))
-		free((*s1));
-	(*s1) = NULL;
-	return (returned);
-}
 
 int	append_str(t_printf *data, char const *str, size_t n)
 {
@@ -28,23 +19,28 @@ int	append_str(t_printf *data, char const *str, size_t n)
 	idx = 0;
 	while (idx < n)
 	{
-		if (append_char(data, str[idx]) == -1)
+		if (append_char(data, str[idx], idx) == -1)
 			return (-1);
 		idx++;
 	}
 	return (0);
 }
 
-int	append_char(t_printf *data, char c)
+int	append_char(t_printf *data, char c, size_t idx)
 {
 	if (data->count < 0)
 		return (-1);
-	if (data->buffer_idx == STRBUFFER)
+	if (data->buffer_idx == STRBUFFER && data->type == PRINTF)
 	{
-		data->mct = (size_t)data->count - data->buffer_idx;
-		data->str = copy_to_heap(data->str, data->buffer, data->mct, STRBUFFER);
-		if (!data->str)
+		if (write(data->fd, data->buffer, data->buffer_idx) == -1)
 			return (-1);
+		ft_bzero(data->buffer, sizeof(data->buffer));
+		data->buffer_idx = 0;
+	}
+	else if (data->buffer_idx == STRBUFFER && data->type == SPRINTF)
+	{
+		data->pos_str = ((size_t)data->count + idx) - data->buffer_idx;
+		ft_memcpy((data->str_sprintf + data->pos_str), data->buffer, STRBUFFER);
 		ft_bzero(data->buffer, sizeof(data->buffer));
 		data->buffer_idx = 0;
 	}
@@ -53,30 +49,30 @@ int	append_char(t_printf *data, char c)
 	return (0);
 }
 
-char	*copy_to_heap(char *s1, const char *s2, int count, size_t n)
+int	return_interface(va_list *ar, t_printf *data)
 {
-	size_t	len2;
-	size_t	i;
-	char	*res;
+	size_t	buf_idx;
+	int		value;
 
-	i = 0;
-	len2 = n;
-	res = NULL;
-	if (count < 0)
-		return (handle_return(&s1, NULL));
-	res = (char *)malloc(sizeof(char) * ((size_t)count + len2 + 1));
-	if (!res)
-		return (handle_return(&s1, NULL));
-	while (i < ((size_t)count + len2))
+	buf_idx = data->buffer_idx;
+	if (data->return_status == -1 || data->count < 0)
+		value = -1;
+	else
+		value = data->count;
+	if (buf_idx && data->type == PRINTF && value != -1)
 	{
-		if (i < (size_t)count)
-			res[i] = s1[i];
-		else
-			res[i] = s2[i - (size_t)count];
-		i++;
+		if (write(data->fd, data->buffer, buf_idx) == -1)
+			value = -1;
+		ft_bzero(data->buffer, sizeof(data->buffer));
 	}
-	res[i] = '\0';
-	return (handle_return(&s1, res));
+	if (buf_idx && data->type == SPRINTF && value != -1)
+	{
+		data->pos_str = (size_t)data->count - data->buffer_idx;
+		ft_memcpy((data->str_sprintf + data->pos_str), data->buffer, buf_idx);
+		ft_bzero(data->buffer, sizeof(data->buffer));
+	}
+	va_end(*ar);
+	return (value);
 }
 
 size_t	length_number(const char c, va_list *ar, int base)

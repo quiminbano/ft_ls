@@ -6,12 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 23:42:23 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:36:57 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:15:47 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "../libft.h"
 
 int	special_case(t_printf *data)
 {
@@ -69,7 +68,7 @@ static int	sp_zero(t_printf *data, size_t total_size, t_when when, char c)
 	iter = 0;
 	while (when == BEFORE && data->flags.has_pure_number && iter < total_size)
 	{
-		if (append_char(data, c) == -1)
+		if (append_char(data, c, 0) == -1)
 			return (-1);
 		iter++;
 		(data->count)++;
@@ -79,7 +78,7 @@ static int	sp_zero(t_printf *data, size_t total_size, t_when when, char c)
 	iter = 0;
 	while (when == AFTER && data->flags.has_minus && iter < total_size)
 	{
-		if (append_char(data, c) == -1)
+		if (append_char(data, c, 0) == -1)
 			return (-1);
 		iter++;
 		(data->count)++;

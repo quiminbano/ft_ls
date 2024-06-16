@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/06 14:19:43 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:11:54 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <dirent.h>
 # include <pwd.h>
 # include <grp.h>
-# include <sys/xattr.h>
 # include <string.h>
 # include <time.h>
 # include <errno.h>

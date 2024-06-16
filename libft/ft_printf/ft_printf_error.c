@@ -6,12 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:36:09 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/08 16:36:24 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:16:06 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "../libft.h"
 
 int	check_undef(const char *s, size_t *af, t_printf *data, va_list *ar)
 {

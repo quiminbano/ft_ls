@@ -6,31 +6,25 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 13:30:19 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/10 14:54:11 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:20:03 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "../libft.h"
 
 int	append_number(unsigned long number, t_base base, t_printf *data)
 {
 	int				write_status;
 	unsigned long	base_num;
 	size_t			length;
-	char			*str;
 
 	if (base == NORMAL)
 		base_num = 10;
 	else
 		base_num = 16;
-	str = ft_ultoa_base(number, base_num, (size_t)base);
-	if (!str)
-		return (-1);
-	length = ft_strlen(str);
-	write_status = append_str(data, str, length);
-	free(str);
-	str = NULL;
+	ft_sultoa_base(data->ul_buf, number, base_num, (size_t)base);
+	length = ft_strlen(data->ul_buf);
+	write_status = append_str(data, data->ul_buf, length);
 	if (write_status == -1)
 		return (-1);
 	data->count += length;
@@ -97,7 +91,7 @@ int	char_return(char c, t_printf *data, t_char flag)
 {
 	if (flag == CHAR && append_identation(data, 1, BEFORE) == -1)
 		return (-1);
-	if (append_char(data, c) == -1)
+	if (append_char(data, c, 0) == -1)
 		return (-1);
 	data->count += 1;
 	if (flag == CHAR && append_identation(data, 1, AFTER) == -1)

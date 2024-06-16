@@ -6,12 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:37:01 by corellan          #+#    #+#             */
-/*   Updated: 2024/04/10 15:07:29 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/16 23:15:32 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "../libft.h"
 
 static size_t	get_size(const size_t begin, const char *s)
 {
