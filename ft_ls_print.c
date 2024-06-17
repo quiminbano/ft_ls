@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/15 17:16:51 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:34:38 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,17 @@ static void	print_filename(t_fileinfo *info, t_ls *ls)
 	ft_printf("\n");
 }
 
-static void	print_filedata(t_fileinfo *info, t_ls *ls)
+static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
 {
-	ft_bzero(ls->perm, sizeof(ls->perm));
 	if (((ls->flags_info >> LFLAG) & 1))
 	{
 		info->pw = getpwuid(info->lstat.st_uid);
 		info->gr = getgrgid(info->lstat.st_gid);
+		if (errno == ENOMEM)
+		{
+			(*ret_err) = -1;
+			return ;
+		}
 		store_attributes(info, ls);
 		ft_printf("%s %*d ", ls->perm, ls->pad.pad_hl, info->lstat.st_nlink);
 		if (info->pw)
@@ -43,9 +47,10 @@ static void	print_filedata(t_fileinfo *info, t_ls *ls)
 	print_filename(info, ls);
 }
 
-static void	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
+static int	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 {
 	t_fileinfo	*info;
+	int			ret_err;
 
 	info = node->content;
 	if (type == DIRECTORY && ls->iter_lst == 0 && \
@@ -60,7 +65,13 @@ static void	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 	}
 	else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
 		(!((ls->flags_info >> AFLAG) & 1) && info->name[0] != '.'))
-		print_filedata(info, ls);
+	{
+		ft_bzero(ls->perm, sizeof(ls->perm));
+		print_filedata(info, ls, &ret_err);
+	}
+	if (ret_err == -1)
+		return (-1);
+	return (0);
 }
 
 int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
@@ -70,11 +81,10 @@ int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
 	if (!begin || !(*begin))
 		return (0);
 	tmp = *begin;
+	ls->iter_lst = 1;
 	if ((type == ARGUMENT) || ((ls->flags_info >> AFLAG) & 1) || \
 		ft_lstsize(tmp) > 2)
 		ls->iter_lst = 0;
-	else
-		ls->iter_lst = 1;
 	if (error == 1)
 		ls->exit_status = 1;
 	else if (tmp && ((ls->flags_info >> LFLAG) & 1))
@@ -85,7 +95,8 @@ int	print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type)
 	}
 	while (tmp)
 	{
-		files_error_loop(tmp, ls, error, type);
+		if (files_error_loop(tmp, ls, error, type) == -1)
+			return (-1);
 		tmp = tmp->next;
 		(ls->iter_lst)++;
 	}

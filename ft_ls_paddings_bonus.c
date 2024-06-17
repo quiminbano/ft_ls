@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:16:18 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/06 14:22:03 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:50:06 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@ static const char	*get_year(const char *str)
 	return (str + length);
 }
 
-static void	get_correct_time(t_fileinfo *info, t_ls *ls, char **time)
+static int	corr_time(t_fileinfo *info, t_ls *ls, char **time_s, time_t *time_n)
 {
+	(*time_n) = time(NULL);
 	if (!((ls->flags_info >> UFLAG) & 1))
-		(*time) = ctime(&(info->lstat.st_mtime));
+		(*time_s) = ctime(&(info->lstat.st_mtime));
 	else
-		(*time) = ctime(&(info->lstat.st_atime));
+		(*time_s) = ctime(&(info->lstat.st_atime));
+	if (!(*time_s))
+		return (-1);
+	return (0);
 }
 
 static int	get_time_string(t_fileinfo *info, t_ls *ls)
@@ -40,9 +44,9 @@ static int	get_time_string(t_fileinfo *info, t_ls *ls)
 	char	*time_file;
 	int		flag;
 
-	time_nwd = time(NULL);
+	if (corr_time(info, ls, &time_file, & time_nwd) == -1)
+		return (-1);
 	flag = 0;
-	get_correct_time(info, ls, &time_file);
 	if ((info->lstat.st_mtime >= (time_nwd - SIX_MONTHS)) && \
 		(info->lstat.st_mtime <= (time_nwd + SIX_MONTHS)))
 		info->time = ft_substr(time_file, 4, 12);
@@ -62,13 +66,15 @@ static int	get_time_string(t_fileinfo *info, t_ls *ls)
 	return (0);
 }
 
-static void	padding_user_group_and_name(t_fileinfo **info, t_ls *ls)
+static int	padding_user_group_and_name(t_fileinfo **info, t_ls *ls)
 {
 	size_t	length_us;
 	size_t	length_gr;
 
 	(*info)->pw = getpwuid((*info)->lstat.st_uid);
 	(*info)->gr = getgrgid((*info)->lstat.st_gid);
+	if (errno == ENOMEM)
+		return (-1);
 	if ((*info)->pw)
 		length_us = ft_strlen((*info)->pw->pw_name);
 	else
@@ -81,6 +87,7 @@ static void	padding_user_group_and_name(t_fileinfo **info, t_ls *ls)
 		length_gr = ft_numlength_base((*info)->lstat.st_gid, 10);
 	if (length_gr > ls->pad.pad_gr)
 		ls->pad.pad_gr = length_gr;
+	return (0);
 }
 
 int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
@@ -99,7 +106,8 @@ int	calculate_paddings(t_list **begin, t_ls *ls, t_lstls type)
 			ls->len_link = ft_numlength_base(info->lstat.st_nlink, 10);
 			if (ls->len_link > ls->pad.pad_hl)
 				ls->pad.pad_hl = ls->len_link;
-			padding_user_group_and_name(&info, ls);
+			if (padding_user_group_and_name(&info, ls) == -1)
+				return (-1);
 			if (get_time_string(info, ls) == -1)
 				return (-1);
 			padding_file_size(info, ls);
