@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/17 14:34:38 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:55:16 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 	int			ret_err;
 
 	info = node->content;
+	ret_err = 0;
 	if (type == DIRECTORY && ls->iter_lst == 0 && \
 		((ls->flags_info >> LFLAG) & 1))
 		ft_printf("total %d\n", ls->total_blocks);
