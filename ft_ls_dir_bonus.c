@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 11:04:01 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/17 23:37:23 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	process_folder(t_fileinfo *info, t_ls *ls)
 	open_directory(info, &tmpdir);
 	if (!tmpdir)
 		info->er_dr = errno;
+	if (!tmpdir && info->er_dr == ENOMEM)
+		return (-1);
 	if (!tmpdir)
 		return (-2);
 	if (loop_dir(info, ls, &col, &tmpdir) == -1)
@@ -64,6 +66,21 @@ static int	process_folder(t_fileinfo *info, t_ls *ls)
 	return (return_dir);
 }
 
+static void	print_path(t_fileinfo *info, t_ls *ls, int flag, int size_lst)
+{
+	if ((size_lst > 1 || flag || ls->size_file_lst) && info->rel_path && \
+		!ls->nofirst_dir)
+		ft_printf("%s:\n", info->rel_path);
+	else if ((size_lst > 1 || flag || ls->size_file_lst) && info->name && \
+		!ls->nofirst_dir)
+		ft_printf("%s:\n", info->name);
+	else if ((size_lst > 1 || flag || ls->size_file_lst) && info->rel_path)
+		ft_printf("\n%s:\n", info->rel_path);
+	else if ((size_lst > 1 || flag || ls->size_file_lst) && info->name)
+		ft_printf("\n%s:\n", info->name);
+	ls->nofirst_dir = 1;
+}
+
 int	print_folder(t_list **begin, t_ls *ls, int flag)
 {
 	t_list		*tmp;
@@ -78,10 +95,7 @@ int	print_folder(t_list **begin, t_ls *ls, int flag)
 	while (tmp)
 	{
 		info = tmp->content;
-		if ((size_lst > 1 || flag || ls->size_file_lst) && info->rel_path)
-			ft_printf("\n%s:\n", info->rel_path);
-		else if ((size_lst > 1 || flag || ls->size_file_lst) && info->name)
-			ft_printf("\n%s:\n", info->name);
+		print_path(info, ls, flag, size_lst);
 		return_dir = process_folder(info, ls);
 		if (return_dir == -1)
 			return (-1);
