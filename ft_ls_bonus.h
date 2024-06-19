@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/19 12:47:41 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:23:41 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_fileinfo
 	int				er_st;
 	int				er_dr;
 	int				is_dir;
+	int				print_lk;
 	struct stat		stat;
 	struct stat		lstat;
 	struct passwd	*pw;
@@ -139,6 +140,7 @@ typedef struct s_fileinfo
 	int				er_st;
 	int				er_dr;
 	int				is_dir;
+	int				print_lk;
 	struct stat		stat;
 	struct stat		lstat;
 	struct passwd	*pw;

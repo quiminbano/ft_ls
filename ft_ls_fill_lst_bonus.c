@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/05/29 10:27:21 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:05:11 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,7 @@ int	check_files_args(t_ls *ls)
 		tmp = process_argument(ls, ls->av[i], ARGUMENT);
 		if (!tmp)
 			return (free_lst(&(ls->dir), &(ls->file), &(ls->error)));
-		if (((t_fileinfo *)tmp->content)->er_st || \
-			((t_fileinfo *)tmp->content)->er_lk)
+		if (((t_fileinfo *)tmp->content)->er_st)
 			ft_lstadd_back(&(ls->error), tmp);
 		else if (((t_fileinfo *)tmp->content)->is_dir && \
 			(!((ls->flags_info >> DFLAG) & 1)))

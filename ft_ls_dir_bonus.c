@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:34:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/17 23:37:23 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:26:08 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ static void	print_error_folder(t_fileinfo *info, t_ls *ls)
 {
 	int	check_error;
 
-	if (!info->er_lk)
-		check_error = info->er_st;
-	else
-		check_error = info->er_lk;
+	check_error = info->er_st;
 	if (!check_error && S_ISDIR(info->lstat.st_mode) && info->er_dr == EBADF)
 		ft_dprintf(2, "ft_ls: %s: directory causes a cycle\n", info->name);
 	else if (info->name)
@@ -29,9 +26,7 @@ static void	print_error_folder(t_fileinfo *info, t_ls *ls)
 
 static void	open_directory(t_fileinfo *info, DIR **tmpdir)
 {
-	if (S_ISLNK(info->lstat.st_mode) && S_ISDIR(info->stat.st_mode))
-		(*tmpdir) = opendir(info->lk);
-	else if (info->rel_path)
+	if (info->rel_path)
 		(*tmpdir) = opendir(info->rel_path);
 	else
 		(*tmpdir) = opendir(info->name);
