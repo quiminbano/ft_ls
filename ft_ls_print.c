@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:27 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/17 17:55:16 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:14:19 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,33 @@
 static void	print_filename(t_fileinfo *info, t_ls *ls)
 {
 	ft_printf("%s", info->name);
-	if (((ls->flags_info >> LFLAG) & 1) && (S_ISLNK(info->lstat.st_mode)))
+	if (((ls->flags_info >> LFLAG) & 1) && (S_ISLNK(info->lstat.st_mode)) && \
+		info->print_lk)
 		ft_printf(" -> %s", info->lk);
 	ft_printf("\n");
+}
+
+static void	check_lnk_store_attr(t_fileinfo *info, t_ls *ls)
+{
+	ssize_t	readlink_status;
+	char	*path;
+
+	readlink_status = 0;
+	info->print_lk = 0;
+	store_attributes(info, ls);
+	if (!S_ISLNK(info->lstat.st_mode))
+		return ;
+	ft_bzero((info->lk), sizeof(info->lk));
+	path = info->name;
+	if (info->rel_path)
+		path = info->rel_path;
+	readlink_status = readlink(path, info->lk, (PATH_MAX - 1));
+	if (readlink_status == -1)
+	{
+		ft_dprintf(2, "\nft_ls: %s: %s\n", path, strerror(errno));
+		return ;
+	}
+	info->print_lk = 1;
 }
 
 static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
@@ -31,7 +55,7 @@ static void	print_filedata(t_fileinfo *info, t_ls *ls, int *ret_err)
 			(*ret_err) = -1;
 			return ;
 		}
-		store_attributes(info, ls);
+		check_lnk_store_attr(info, ls);
 		ft_printf("%s %*d ", ls->perm, ls->pad.pad_hl, info->lstat.st_nlink);
 		if (info->pw)
 			ft_printf("%-*s  ", ls->pad.pad_pw, info->pw->pw_name);
@@ -61,8 +85,6 @@ static int	files_error_loop(t_list *node, t_ls *ls, int error, t_lstls type)
 	{
 		if (info->er_st)
 			ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_st));
-		else if (info->er_lk)
-			ft_dprintf(2, "ft_ls: %s: %s\n", info->name, strerror(info->er_lk));
 	}
 	else if (type == ARGUMENT || ((ls->flags_info >> AFLAG) & 1) || \
 		(!((ls->flags_info >> AFLAG) & 1) && info->name[0] != '.'))

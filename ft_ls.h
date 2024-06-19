@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/17 23:33:37 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:05:30 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ typedef struct s_fileinfo
 	char			*file_size;
 	char			lk[PATH_MAX];
 	int				er_st;
-	int				er_lk;
 	int				er_dr;
 	int				is_dir;
+	int				print_lk;
 	struct stat		stat;
 	struct stat		lstat;
 	struct passwd	*pw;

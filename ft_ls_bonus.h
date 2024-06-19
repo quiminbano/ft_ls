@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/17 23:35:01 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:47:41 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ typedef struct s_fileinfo
 	char			*end;
 	char			lk[PATH_MAX];
 	int				er_st;
-	int				er_lk;
 	int				er_dr;
 	int				is_dir;
 	struct stat		stat;
@@ -138,7 +137,6 @@ typedef struct s_fileinfo
 	char			*end;
 	char			lk[PATH_MAX];
 	int				er_st;
-	int				er_lk;
 	int				er_dr;
 	int				is_dir;
 	struct stat		stat;
