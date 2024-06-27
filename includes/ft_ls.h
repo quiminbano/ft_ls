@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/27 13:35:22 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:46:04 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 #  ifndef S_ISVTX
 #   define S_ISVTX __S_ISVTX
 #  endif
+# endif
+
+# ifdef __APPLE__
+#  define st_mtimensec st_mtimespec.tv_nsec
 # endif
 
 # define SIX_MONTHS 15811200

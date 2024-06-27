@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:18:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/17 00:34:44 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:46:49 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static int	comp_la(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
 	const unsigned int	reverse = ((bk >> RFLAG) & 1);
 
 	if (!reverse && inf->lstat.st_atime == nxt->lstat.st_atime && \
-		ft_strcmp(inf->name, nxt->name) <= -1)
+		ft_strcmp(inf->name, nxt->name) >= 1)
 		return (1);
 	else if (reverse && inf->lstat.st_atime == nxt->lstat.st_atime && \
-		ft_strcmp(inf->name, nxt->name) >= 1)
+		ft_strcmp(inf->name, nxt->name) <= -1)
 		return (1);
 	else if (!reverse && inf->lstat.st_atime < nxt->lstat.st_atime)
 		return (1);
@@ -41,11 +41,11 @@ static int	make_comparisions(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
 		return (1);
 	else if (time && !last_access && !reverse && \
 		inf->lstat.st_mtime == nxt->lstat.st_mtime && \
-		ft_strcmp(inf->name, nxt->name) <= -1)
+		ft_strcmp(inf->name, nxt->name) >= 1)
 		return (1);
 	else if (time && !last_access && reverse && \
 		inf->lstat.st_mtime == nxt->lstat.st_mtime && \
-		ft_strcmp(inf->name, nxt->name) >= 1)
+		ft_strcmp(inf->name, nxt->name) <= -1)
 		return (1);
 	else if (time && !last_access && !reverse && \
 		inf->lstat.st_mtime < nxt->lstat.st_mtime)
