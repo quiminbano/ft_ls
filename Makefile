@@ -6,7 +6,7 @@
 #    By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 12:46:54 by corellan          #+#    #+#              #
-#    Updated: 2024/06/27 13:58:58 by corellan         ###   ########.fr        #
+#    Updated: 2024/06/27 14:20:35 by corellan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,16 +17,16 @@ ft_ls_lst_utils.c ft_ls_sort_lst.c ft_ls_permissions.c ft_ls_print.c \
 ft_ls_paddings.c ft_ls_dir.c ft_ls_dir_loop.c ft_ls_special_files.c \
 ft_ls_symlink.c)
 
-SRC_B = $(addprefix src_b/, ft_ls_bonus.c ft_ls_flags_bonus.c \
+SRC_B = $(addprefix src_bonus/, ft_ls_bonus.c ft_ls_flags_bonus.c \
 ft_ls_fill_lst_bonus.c ft_ls_lst_utils_bonus.c ft_ls_sort_lst_bonus.c \
 ft_ls_permissions_bonus.c ft_ls_print_bonus.c ft_ls_paddings_bonus.c \
 ft_ls_dir_bonus.c ft_ls_dir_loop_bonus.c ft_ls_special_files_bonus.c \
 ft_ls_symlink_bonus.c ft_ls_ext_bonus.c ft_ls_column_format_bonus.c \
 ft_ls_colors_bonus.c ft_ls_column_pad_print_bonus.c ft_ls_lst_del_bonus.c)
 
-OBJ = $(SRC:.c=.o)
+OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
-OBJ_B = $(SRC_B:.c=.o)
+OBJ_B = $(patsubst src_bonus/%.c, obj_bonus/%.o, $(SRC_B))
 
 LIBFT = -Llibft -lft
 
@@ -47,15 +47,19 @@ bonus: .bonus
 		$(CC) $(FLAGS) -Iincludes $(OBJ_B) $(LIBFT) -o $(NAME)
 		@touch .bonus
 
-src/%.o: src/%.c
+obj/%.o: src/%.c
+		mkdir -p obj/
 		$(CC) $(FLAGS) -Iincludes -c $< -o $@
 
-src_b/%.o: src_b/%.c
+obj_bonus/%.o: src_bonus/%.c
+		mkdir -p obj_bonus/
 		$(CC) $(FLAGS) -Iincludes -c $< -o $@
 
 clean:
 		$(MAKE) clean -C ./libft
 		rm -f $(OBJ) $(OBJ_B)
+		rm -rf obj/
+		rm -rf obj_bonus/
 		@rm -f .bonus
 
 fclean: clean
@@ -64,5 +68,5 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean
+.PHONY: all clean fclean bonus
 		
