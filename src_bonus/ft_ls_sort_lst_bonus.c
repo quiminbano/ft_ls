@@ -6,57 +6,11 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:18:53 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/27 15:46:49 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/27 19:00:50 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_bonus.h"
-
-static int	comp_la(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
-{
-	const unsigned int	reverse = ((bk >> RFLAG) & 1);
-
-	if (!reverse && inf->lstat.st_atime == nxt->lstat.st_atime && \
-		ft_strcmp(inf->name, nxt->name) >= 1)
-		return (1);
-	else if (reverse && inf->lstat.st_atime == nxt->lstat.st_atime && \
-		ft_strcmp(inf->name, nxt->name) <= -1)
-		return (1);
-	else if (!reverse && inf->lstat.st_atime < nxt->lstat.st_atime)
-		return (1);
-	else if (reverse && inf->lstat.st_atime > nxt->lstat.st_atime)
-		return (1);
-	return (0);
-}
-
-static int	make_comparisions(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk)
-{
-	const unsigned int	reverse = ((bk >> RFLAG) & 1);
-	const unsigned int	time = ((bk >> TFLAG) & 1);
-	const unsigned int	last_access = ((bk >> UFLAG) & 1);
-
-	if (!time && !reverse && ft_strcmp(inf->name, nxt->name) >= 1)
-		return (1);
-	else if (!time && reverse && ft_strcmp(inf->name, nxt->name) <= -1)
-		return (1);
-	else if (time && !last_access && !reverse && \
-		inf->lstat.st_mtime == nxt->lstat.st_mtime && \
-		ft_strcmp(inf->name, nxt->name) >= 1)
-		return (1);
-	else if (time && !last_access && reverse && \
-		inf->lstat.st_mtime == nxt->lstat.st_mtime && \
-		ft_strcmp(inf->name, nxt->name) <= -1)
-		return (1);
-	else if (time && !last_access && !reverse && \
-		inf->lstat.st_mtime < nxt->lstat.st_mtime)
-		return (1);
-	else if (time && !last_access && reverse && \
-		inf->lstat.st_mtime > nxt->lstat.st_mtime)
-		return (1);
-	else if (time && last_access)
-		return (comp_la(inf, nxt, bk));
-	return (0);
-}
 
 static t_list	*merge_lst(t_list *a, t_list *b, t_ls *ls, unsigned int bk)
 {
@@ -71,15 +25,16 @@ static t_list	*merge_lst(t_list *a, t_list *b, t_ls *ls, unsigned int bk)
 		return (a);
 	info_a = (t_fileinfo *)a->content;
 	info_b = (t_fileinfo *)b->content;
-	if (!make_comparisions(info_a, info_b, bk))
-	{
-		result = a;
-		result->next = merge_lst(a->next, b, ls, bk);
-	}
-	else
+	if ((!((bk >> RFLAG) & 1) && check_norev(info_a, info_b, bk)) || \
+		(((bk >> RFLAG) & 1) && check_rev(info_a, info_b, bk)))
 	{
 		result = b;
 		result->next = merge_lst(a, b->next, ls, bk);
+	}
+	else
+	{
+		result = a;
+		result->next = merge_lst(a->next, b, ls, bk);
 	}
 	return (result);
 }

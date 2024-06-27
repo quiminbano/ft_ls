@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/27 15:46:04 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/27 18:39:31 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,6 @@
 #  ifndef S_ISVTX
 #   define S_ISVTX __S_ISVTX
 #  endif
-# endif
-
-# ifdef __APPLE__
-#  define st_mtimensec st_mtimespec.tv_nsec
 # endif
 
 # define SIX_MONTHS 15811200
@@ -128,6 +124,8 @@ int		valid_flag(t_ls *ls);
 int		check_files_args(t_ls *ls);
 t_list	*process_argument(t_ls *ls, const char *input, t_lstls type);
 void	sort_input(t_ls *ls, t_list **begin, int flag);
+int		check_norev(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk);
+int		check_rev(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk);
 int		free_lst(t_list **dir, t_list **file, t_list **err);
 void	delete_fileinfo(void *fileinfo);
 int		print_files_or_error(t_list **begin, t_ls *ls, int error, t_lstls type);
