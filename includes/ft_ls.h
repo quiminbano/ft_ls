@@ -6,14 +6,14 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/19 15:05:30 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:35:22 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <sys/stat.h>
 # include <dirent.h>
 # include <pwd.h>
