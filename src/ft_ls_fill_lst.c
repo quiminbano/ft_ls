@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:00:40 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/19 12:48:48 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:29:13 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	process_one_argument(t_ls *ls, const char *str)
 	return (0);
 }
 
-int	check_files_args(t_ls *ls)
+int	initialize_files_args(t_ls *ls)
 {
 	size_t	i;
 	t_list	*tmp;

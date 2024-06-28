@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/27 18:39:31 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:29:01 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@
 typedef enum e_erls
 {
 	FLAGSERR,
-	ALLOCERR
+	ALLOCERR,
+	CLOSEDSTDOUT
 }	t_erls;
 
 typedef enum e_lstls
@@ -100,6 +101,7 @@ typedef struct s_ls
 	int				exit_status;
 	int				size_file_lst;
 	int				nofirst_dir;
+	int				is_closed;
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
@@ -121,7 +123,7 @@ typedef struct s_ls
 
 void	count_options(t_ls *ls, int ac, char **av);
 int		valid_flag(t_ls *ls);
-int		check_files_args(t_ls *ls);
+int		initialize_files_args(t_ls *ls);
 t_list	*process_argument(t_ls *ls, const char *input, t_lstls type);
 void	sort_input(t_ls *ls, t_list **begin, int flag);
 int		check_norev(t_fileinfo *inf, t_fileinfo *nxt, unsigned int bk);

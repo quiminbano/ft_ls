@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/17 10:10:24 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:37:48 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ static int	error_messages(t_ls *ls, t_erls error)
 		ft_dprintf(2, "ft_ls: illegal option -- %c\n", ls->char_flag);
 		ft_dprintf(2, "usage: ft_ls [-Ralrt] [file ...]\n");
 	}
-	if (error == ALLOCERR)
+	else if (error == ALLOCERR)
 		ft_dprintf(2, "ft_ls: %s\n", strerror(12));
+	else if (error == CLOSEDSTDOUT)
+		ft_dprintf(2, "ft_ls: stdout: %s\n", strerror(EBADF));
 	free_lst(&(ls->dir), &(ls->file), &(ls->error));
 	return (1);
 }
@@ -30,10 +32,12 @@ int	main(int ac, char **av)
 	t_ls	ls;
 
 	ft_bzero(&ls, sizeof(ls));
+	if (write(1, "", 1) == -1)
+		ls.is_closed = 1;
 	count_options(&ls, ac, av);
-	if (ls.starting_point != 1 && valid_flag(&ls) == -1)
+	if (valid_flag(&ls) == -1)
 		return (error_messages(&ls, FLAGSERR));
-	if (check_files_args(&ls) == -1)
+	if (initialize_files_args(&ls) == -1)
 		return (error_messages(&ls, ALLOCERR));
 	sort_input(&ls, &(ls.error), 1);
 	sort_input(&ls, &(ls.file), 0);
@@ -45,6 +49,8 @@ int	main(int ac, char **av)
 	ls.size_file_lst = ft_lstsize(ls.file);
 	if (print_folder(&(ls.dir), &ls, 0) == -1)
 		return (error_messages(&ls, ALLOCERR));
+	if (ls.is_closed)
+		return (error_messages(&ls, CLOSEDSTDOUT));
 	free_lst(&ls.dir, &ls.file, &ls.error);
 	return (ls.exit_status);
 }
