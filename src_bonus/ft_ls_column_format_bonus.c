@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:47:11 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/28 10:13:10 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:25:56 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	populate_array(t_list **begin, t_colformat *col_inf, t_list ***arr)
 	}
 }
 
-static size_t correct_col_val(t_list **begin, t_colformat *col_inf)
+static size_t	correct_col_val(t_list **begin, t_colformat *col_inf)
 {
 	t_list	*tmp;
 	size_t	iter_col;
