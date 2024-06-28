@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 10:42:38 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/04 11:47:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:43:16 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	calculate_pad_columns(t_ls *ls, t_list **begin)
 	}
 }
 
-void	print_columns(t_ls *ls, t_list **copy, size_t index_arr)
+static void	print_columns(t_ls *ls, t_list **copy, size_t index_arr)
 {
 	t_fileinfo	*info;
 	size_t		length_name;
@@ -56,4 +56,28 @@ void	print_columns(t_ls *ls, t_list **copy, size_t index_arr)
 	else
 		ft_printf("%s%s%s\n", info->color, info->name, info->end);
 	copy[index_arr] = copy[index_arr]->next;
+}
+
+int	print_arr(t_ls *ls, t_list **arr, size_t nodes)
+{
+	t_list		**copy;
+	size_t		index_arr;
+	size_t		index_nodes;
+
+	copy = dup_arr_lst(arr);
+	if (!copy)
+		return (-1);
+	index_nodes = 0;
+	while (index_nodes < nodes)
+	{
+		index_arr = 0;
+		while (copy[index_arr])
+		{
+			print_columns(ls, copy, index_arr);
+			index_arr++;
+		}
+		index_nodes++;
+	}
+	ft_del_mem((void **)(&copy));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 14:47:11 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/27 21:43:02 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:13:10 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,40 @@ static void	populate_array(t_list **begin, t_colformat *col_inf, t_list ***arr)
 		(*arr)[iter_col] = tmp;
 		while ((iter_node < col_inf->ammount_node) && tmp)
 		{
-			if (++iter_node < col_inf->ammount_node && tmp)
+			iter_node++;
+			if (iter_node < col_inf->ammount_node && tmp)
 				tmp = tmp->next;
 		}
-		if (++iter_col && tmp)
+		if (tmp)
 		{
 			next = tmp->next;
 			tmp->next = NULL;
 			tmp = next;
 		}
+		iter_col++;
 	}
-	while (iter_col < col_inf->ammount_col)
-		(*arr)[iter_col++] = NULL;
 }
 
-static int	print_arr(t_ls *ls, t_list **arr, size_t nodes)
+static size_t correct_col_val(t_list **begin, t_colformat *col_inf)
 {
-	t_list		**copy;
-	size_t		index_arr;
-	size_t		index_nodes;
+	t_list	*tmp;
+	size_t	iter_col;
+	size_t	iter_node;
 
-	copy = dup_arr_lst(arr);
-	if (!copy)
-		return (-1);
-	index_nodes = 0;
-	while (index_nodes < nodes)
+	tmp = *begin;
+	iter_col = 0;
+	while ((iter_col < col_inf->ammount_col) && tmp)
 	{
-		index_arr = 0;
-		while (copy[index_arr])
+		iter_node = 0;
+		while ((iter_node < col_inf->ammount_node) && tmp)
 		{
-			print_columns(ls, copy, index_arr);
-			index_arr++;
+			if (iter_node < col_inf->ammount_node && tmp)
+				tmp = tmp->next;
+			iter_node++;
 		}
-		index_nodes++;
+		iter_col++;
 	}
-	ft_del_mem((void **)(&copy));
-	return (0);
+	return (iter_col);
 }
 
 static int	div_lst_and_print(t_ls *ls, t_list **begin, t_colformat *col_inf)
@@ -98,6 +96,7 @@ static int	div_lst_and_print(t_ls *ls, t_list **begin, t_colformat *col_inf)
 	col_inf->ammount_node = (col_inf->lst_size / col_inf->ammount_col);
 	while ((col_inf->ammount_node * col_inf->ammount_col) < col_inf->lst_size)
 		(col_inf->ammount_node)++;
+	col_inf->ammount_col = correct_col_val(begin, col_inf);
 	lst_arr = (t_list **)malloc(sizeof(t_list *) * (col_inf->ammount_col + 1));
 	if (!lst_arr)
 		return (-1);

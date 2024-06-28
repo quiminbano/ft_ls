@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/27 18:39:50 by corellan         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:44:30 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void	process_link(t_fileinfo **info, t_lstls type, t_ls *ls);
 void	print_ext_attr(t_fileinfo *info, t_ls *ls, int *ret_err);
 int		process_col(t_ls *ls, t_list **begin);
 void	calculate_pad_columns(t_ls *ls, t_list **begin);
-void	print_columns(t_ls *ls, t_list **copy, size_t index_arr);
+int		print_arr(t_ls *ls, t_list **arr, size_t nodes);
 void	handle_colors(t_fileinfo *info, t_ls *ls, mode_t mode);
 
 #endif
