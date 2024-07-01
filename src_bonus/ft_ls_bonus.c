@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/07/01 11:11:00 by corellan         ###   ########.fr       */
+/*   Updated: 2024/07/01 17:17:41 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	error_messages(t_ls *ls, t_erls error)
 		ft_dprintf(2, "usage: ft_ls [-GRadfglrtu1] [file ...]\n");
 	}
 	if (error == ALLOCERR)
-		ft_dprintf(2, "ft_ls: %s\n", strerror(12));
+		ft_dprintf(2, "ft_ls: %s\n", strerror(ENOMEM));
 	else if (error == CLOSEDSTDOUT)
 		ft_dprintf(2, "ft_ls: stdout: %s\n", strerror(EBADF));
 	free_lst(&(ls->dir), &(ls->file), &(ls->error));
