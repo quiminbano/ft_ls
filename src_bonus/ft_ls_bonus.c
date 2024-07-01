@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:18:32 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/28 18:38:05 by corellan         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:11:00 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	main(int ac, char **av)
 	t_ls	ls;
 
 	ft_bzero(&ls, sizeof(ls));
-	if (write(1, "", 1) == -1)
-		ls.is_closed = 1;
 	count_options(&ls, ac, av);
 	if (valid_flag(&ls) == -1)
 		return (error_messages(&ls, FLAGSERR));
@@ -50,7 +48,7 @@ int	main(int ac, char **av)
 	ls.size_file_lst = ft_lstsize(ls.file);
 	if (print_folder(&(ls.dir), &ls, 0) == -1)
 		return (error_messages(&ls, ALLOCERR));
-	if (ls.is_closed)
+	if (write(1, "", 1) == -1)
 		return (error_messages(&ls, CLOSEDSTDOUT));
 	free_lst(&ls.dir, &ls.file, &ls.error);
 	return (ls.exit_status);

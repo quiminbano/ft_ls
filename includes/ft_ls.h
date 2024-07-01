@@ -6,7 +6,7 @@
 /*   By: corellan <corellan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 15:17:15 by corellan          #+#    #+#             */
-/*   Updated: 2024/06/28 18:29:01 by corellan         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:09:17 by corellan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ typedef struct s_ls
 	int				exit_status;
 	int				size_file_lst;
 	int				nofirst_dir;
-	int				is_closed;
 	char			**av;
 	char			char_flag;
 	char			*tmpdir;
