@@ -1,7 +1,7 @@
 # ft_ls
 
 ## Description
-ft_ls is a custom implementation of the `ls` command in Unix-like operating systems. It lists the files and directories in a given directory, providing various options for sorting and formatting the output.
+`ft_ls` is a custom implementation of the `ls` command in Unix-like operating systems. It lists the files and directories in a given directory, providing various options for sorting and formatting the output.
 
 ## Features
 - List files and directories in a given directory
@@ -58,7 +58,7 @@ Here is a list of available options for ft_ls:
 
 ### Bonus part
 
-Include the options mentioned above, but also it includes `he following extra ones:
+Includes the options mentioned above, but also it includes `he following extra ones:
 
 - `-G`: Enable colorized output for improved readability. The colors chosen are based in the `macOS`version of the program `ls`.
 - `-d`: List the directories as a text plain content. It does not expand them and no recursion is applied.
